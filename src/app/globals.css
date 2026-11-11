@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* Design tokens: Tailwind v4 turns each --color-* into utilities (bg-surface, text-accent, ...). */
+@theme {
+  --color-background: #070b14; /* deep navy night */
+  --color-surface: #0e1524;
+  --color-border: #1e2a3f;
+  --color-foreground: #e6edf7;
+  --color-muted: #8b9ab3;
+  --color-accent: #2dd4d4; /* teal */
+  --color-highlight: #e0409a; /* magenta, use sparingly */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
