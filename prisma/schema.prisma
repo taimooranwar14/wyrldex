@@ -1,0 +1,43 @@
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  // Lets Node 24 run the seed directly (native TypeScript) without adding tsx.
+  importFileExtension = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Where a fact comes from. Shown in the UI so sample data is never mistaken for game canon.
+enum Verification {
+  official
+  community
+  sample
+}
+
+/// A virtual world (e.g. one game). Keeps the platform reusable beyond GTA VI.
+model World {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  name        String
+  description String
+  locations   Location[]
+}
+
+model Location {
+  id           String       @id @default(cuid())
+  worldId      String
+  world        World        @relation(fields: [worldId], references: [id], onDelete: Cascade)
+  slug         String
+  name         String
+  category     String
+  /// 0–1 position on our original stylized map, NOT real in-game coordinates.
+  x            Float
+  y            Float
+  summary      String
+  verification Verification
+
+  @@unique([worldId, slug])
+  @@index([worldId, category])
+}

@@ -8,18 +8,24 @@
 | Feature | Status |
 |---|---|
 | Project scaffold + branding | ✅ Done |
-| Dashboard shell | ⏳ Next |
-| Map, locations API, database, local AI, replay | 📋 Planned |
+| Dashboard shell | ✅ Done |
+| Interactive map + filters | ✅ Done |
+| PostgreSQL + locations API (`GET /api/locations`) | ✅ Done |
+| Search UI wired to API | ⏳ Next |
+| Local AI, replay, CI | 📋 Planned |
 
 ## Quickstart
-Requires Node.js 24+.
+Requires Node.js 24+ and Docker.
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
-npm run lint
-npm run typecheck
-npm run build
+cp .env.example .env    # then set a password in both lines
+npm run db:up           # start Postgres (localhost only)
+npx prisma migrate dev  # create tables
+npx prisma db seed      # load sample locations
+npm run dev             # http://localhost:3000
+
+npm run lint && npm run typecheck && npm test
 ```
 
 ## Docs

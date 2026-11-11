@@ -1,4 +1,5 @@
-import type { Location, Verification } from "@/features/locations/sample-data";
+import type { Verification } from "@/generated/prisma/enums";
+import type { LocationSummary } from "@/features/locations/repository";
 
 const verificationLabel: Record<Verification, string> = {
   official: "Officially confirmed",
@@ -6,7 +7,7 @@ const verificationLabel: Record<Verification, string> = {
   sample: "Sample data — fictional",
 };
 
-export function DetailPanel({ location }: { location: Location | null }) {
+export function DetailPanel({ location }: { location: LocationSummary | null }) {
   return (
     <aside
       aria-label="Location details"

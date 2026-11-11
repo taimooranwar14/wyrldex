@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { DetailPanel } from "@/components/detail-panel";
-import type { Location } from "@/features/locations/sample-data";
+import type { LocationSummary } from "@/features/locations/repository";
 import { WorldMap } from "./world-map";
 
-export function Explorer({ locations }: { locations: Location[] }) {
+export function Explorer({ locations }: { locations: LocationSummary[] }) {
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   const [category, setCategory] = useState<string | null>(null);
 
@@ -45,6 +45,10 @@ export function Explorer({ locations }: { locations: Location[] }) {
             className="w-full lg:w-[min(100cqw,142.857cqh)]"
           />
         </div>
+
+        {locations.length === 0 && (
+          <p role="status" className="text-sm text-muted">No locations in this world yet.</p>
+        )}
 
         <p className="font-mono text-[11px] text-muted">
           Original stylized map — not to scale. Positions are illustrative, not in-game coordinates.

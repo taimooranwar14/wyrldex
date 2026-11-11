@@ -32,3 +32,15 @@
 **Learned / gotchas:**
 - React has no `emit`: children call a callback prop (`onSelect`) that the parent passes in.
 - Headless Chrome enforces a minimum window width (~500px); test phone widths with a 390px iframe or DevTools device mode.
+
+## 2026-11-12 — M3: Real backend
+
+**Built:** Postgres in Docker, Prisma schema + first migration, idempotent seed, `GET /api/locations` with Zod validation, page reading from the DB, loading/error/empty states, 17 Vitest tests (unit + integration). See [ADR-0002](adr/0002-data-layer.md).
+
+**Learned / gotchas:**
+- npm's `latest` tag is just a label: `prisma@latest` was an 8.0 RC. Pin exact versions.
+- `@types/node@^20` (scaffold default) conflicted with Vitest 5; types should match the Node you run (24).
+- Prisma 7: no auto `.env` loading, `migrate dev` no longer runs `generate` or the seed, driver adapter required.
+- Next 16 `error.tsx` receives `retry` (not `reset`). Always check the bundled docs.
+- Prisma `contains` → SQL `LIKE`: `%` and `_` are wildcards and must be escaped. Found by trying odd inputs with curl, now covered by a test.
+- Built with the DB stopped to prove CI won't need one.

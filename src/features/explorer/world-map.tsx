@@ -1,7 +1,7 @@
-import type { Location } from "@/features/locations/sample-data";
+import type { LocationSummary } from "@/features/locations/repository";
 
 type WorldMapProps = {
-  locations: Location[];
+  locations: LocationSummary[];
   selectedSlug: string | null;
   onSelect: (slug: string) => void;
   className?: string;
