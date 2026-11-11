@@ -22,3 +22,13 @@
 **Learned / gotchas:**
 - Next.js components are server components by default; `"use client"` is opt-in and ships JS to the browser.
 - The server-rendered HTML also contains an RSC payload, so text can appear twice in `curl` output.
+
+## 2026-11-11 — M2: Interactive map
+
+**Built:** original hand-drawn SVG coastline, pin buttons, category filter chips, selection → detail panel, empty state.
+
+**Decisions:** one small client component (`Explorer`) owns state; map and panel receive props. Derived values (`visible`, `selected`, `categories`) are computed each render, never stored. Pins are HTML `<button>`s over the SVG, positioned in %, so they get keyboard support for free. Map fits its box via a size container query (`cqw`/`cqh`).
+
+**Learned / gotchas:**
+- React has no `emit`: children call a callback prop (`onSelect`) that the parent passes in.
+- Headless Chrome enforces a minimum window width (~500px); test phone widths with a 390px iframe or DevTools device mode.
