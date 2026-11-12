@@ -44,3 +44,13 @@
 - Next 16 `error.tsx` receives `retry` (not `reset`). Always check the bundled docs.
 - Prisma `contains` → SQL `LIKE`: `%` and `_` are wildcards and must be escaped. Found by trying odd inputs with curl, now covered by a test.
 - Built with the DB stopped to prove CI won't need one.
+
+## 2026-11-12 — M4: Search wired to the API
+
+**Built:** search box → `useLocationSearch` hook → `GET /api/locations?q=` → Zod → SQL → pins. Debounced (250 ms), stale requests aborted, loading/no-match/error states announced via `role="status"`. `server-only` guards on `db.ts` and `repository.ts`; README "Where code runs" table.
+
+**Learned / gotchas:**
+- `useEffect` cleanup runs before the next effect and on unmount: the right place to cancel timers and in-flight requests.
+- Prefer deriving over `setState` inside an effect: the empty-query case returns `null` results without touching state.
+- `server-only` needs no package in Next; Vitest needs an alias to Next's no-op build of it.
+- Verified in headless Chrome via the DevTools Protocol: typing "pier" sends exactly one request.

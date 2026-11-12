@@ -6,5 +6,11 @@ import { defineConfig } from "vitest/config";
 if (existsSync(".env")) process.loadEnvFile();
 
 export default defineConfig({
-  resolve: { alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) } },
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      // Tests run server code in Node, so use the no-op build of the marker (as Next does on the server).
+      "server-only": fileURLToPath(new URL("./node_modules/next/dist/compiled/server-only/empty.js", import.meta.url)),
+    },
+  },
 });
