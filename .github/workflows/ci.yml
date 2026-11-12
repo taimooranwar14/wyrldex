@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Read-only token: CI only needs to check out code.
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # Throwaway database that exists only for this run. The password never leaves the job.
+    services:
+      db:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: wyrldex
+          POSTGRES_PASSWORD: ci-only
+          POSTGRES_DB: wyrldex
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U wyrldex"
+          --health-interval 2s
+          --health-retries 15
+
+    env:
+      DATABASE_URL: postgresql://wyrldex:ci-only@localhost:5432/wyrldex
+
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci # also runs `prisma generate` via postinstall
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npx prisma migrate deploy
+      - run: npx prisma db seed
+      - run: npm test
+      - run: npm run build

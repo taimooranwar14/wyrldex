@@ -54,3 +54,11 @@
 - Prefer deriving over `setState` inside an effect: the empty-query case returns `null` results without touching state.
 - `server-only` needs no package in Next; Vitest needs an alias to Next's no-op build of it.
 - Verified in headless Chrome via the DevTools Protocol: typing "pier" sends exactly one request.
+
+## 2026-11-12 — M5: Continuous integration
+
+**Built:** GitHub Actions workflow: `npm ci` → lint → typecheck → `prisma migrate deploy` on a throwaway Postgres service container → seed → tests → build. Read-only token, 15-minute timeout.
+
+**Learned / gotchas:**
+- `migrate deploy` (CI/production) only applies existing migrations; `migrate dev` (local) also creates new ones and may reset data.
+- Dry-ran the whole pipeline locally from a fresh `git clone` against an empty database before pushing: cheaper than debugging in CI.

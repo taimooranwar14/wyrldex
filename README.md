@@ -1,5 +1,7 @@
 # Wyrldex
 
+[![CI](https://github.com/taimooranwar14/wyrldex/actions/workflows/ci.yml/badge.svg)](https://github.com/taimooranwar14/wyrldex/actions/workflows/ci.yml)
+
 **Intelligence for Virtual Worlds.** An AI-native virtual-world exploration platform. First experience: a GTA VI-inspired World Explorer.
 
 > Independent, unofficial fan project. Not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive. "Wyrldex" is a provisional name.
@@ -12,7 +14,8 @@
 | Interactive map + filters | ✅ Done |
 | PostgreSQL + locations API (`GET /api/locations`) | ✅ Done |
 | Search UI wired to API | ✅ Done |
-| CI, local AI, replay | 📋 Planned |
+| CI (lint, typecheck, tests with Postgres, build) | ✅ Done |
+| Local AI, replay | 📋 Planned |
 
 ## Quickstart
 Requires Node.js 24+ and Docker.
