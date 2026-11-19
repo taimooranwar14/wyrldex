@@ -30,7 +30,10 @@ export function WorldGraph({ graph, onPick }: { graph: Graph; onPick: (node: Gra
         <h2 id="graph-heading" className="text-sm font-semibold">
           World Graph
         </h2>
-        <p className="truncate text-xs text-muted">Centred on {graph.center.label}</p>
+        <p className="truncate text-xs text-muted">
+          Centred on {graph.center.label}
+          {graph.hidden > 0 && ` · ${graph.hidden} more not shown`}
+        </p>
       </div>
 
       <div className="relative mt-1 min-h-40 flex-1 lg:min-h-0">

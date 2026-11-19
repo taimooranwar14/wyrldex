@@ -26,6 +26,7 @@ describe("buildGraph", () => {
   it("shows the state's characters and regions by default", () => {
     const graph = buildGraph(locations, [lucia], { character: null, location: null });
     expect(graph.center.id).toBe("world");
+    expect(graph.hidden).toBe(0);
     expect(ids(graph.neighbors)).toEqual(["character:lucia", "location:vice-city"]);
   });
 

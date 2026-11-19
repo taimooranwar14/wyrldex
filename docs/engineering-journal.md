@@ -122,3 +122,13 @@
 - Repeated React keys leave stale elements in the DOM; derived lists used as keys must be de-duplicated at the source.
 - "Adjust state during render" (compare with a stored previous prop) moves the map camera when results change, without an effect and without the set-state-in-effect lint error.
 - A CSS grid with no column template sizes to content; `grid-cols-1` (`minmax(0, 1fr)`) stops long content forcing horizontal scroll on phones.
+
+## 2026-11-19 — Readable trace, full-space map
+
+**Built:** the execution trace now reads as plain steps with checkmarks ("Understood the question → Checked and looked it up → Wrote the answer"); raw calls, arguments and IDs sit behind a "Technical details" toggle. The map fills all available space: the frame paints the sea and the 10:7 art is centred inside with CSS container units; the camera converts art positions to frame fractions (`artBox`/`toFrame`). The graph shows at most 6 links and says how many more exist.
+
+**Decisions:** keep the trace for everyone, because showing *how* an answer was grounded is the product's point, but write it for non-developers first.
+
+**Learned / gotchas:**
+- Two Tailwind position classes on one element (`relative` built in, `absolute` passed from outside) do not follow class order; CSS source order decides. Components should fill their parent (`size-full`) and let the parent own position.
+- Laying out the art with CSS (not measured JS) means the first paint is right; the JS measurement is only needed for camera maths.

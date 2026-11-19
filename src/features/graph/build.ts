@@ -11,9 +11,9 @@ export type GraphNode = {
   note?: string; // why this node is linked to the centre
 };
 
-export type Graph = { center: GraphNode; neighbors: GraphNode[] };
+export type Graph = { center: GraphNode; neighbors: GraphNode[]; hidden: number }; // hidden: links not drawn
 
-const MAX_NEIGHBORS = 8;
+const MAX_NEIGHBORS = 6; // more than this and labels collide in the card
 
 const placeNode = (loc: LocationSummary, note?: string): GraphNode => ({
   id: `location:${loc.slug}`,
@@ -42,7 +42,7 @@ export function buildGraph(
       const loc = bySlug.get(link.location.slug);
       return loc ? [placeNode(loc, link.note)] : [];
     });
-    return { center: characterNode(focus.character), neighbors };
+    return limit(characterNode(focus.character), neighbors);
   }
 
   const loc = focus.location;
@@ -55,14 +55,17 @@ export function buildGraph(
     const children =
       loc.category === "Region" ? locations.filter((p) => p.region === loc.name).map((p) => placeNode(p, `${p.category} in ${loc.name}`)) : [];
     const neighbors = [...people, ...(parent ? [placeNode(parent, `${loc.name} is in ${parent.name}`)] : []), ...children];
-    return { center: placeNode(loc), neighbors: neighbors.slice(0, MAX_NEIGHBORS) };
+    return limit(placeNode(loc), neighbors);
   }
 
-  return {
-    center: { id: "world", kind: "world", label: "Leonida" },
-    neighbors: [
-      ...characters.map((c) => characterNode(c, c.summary)),
-      ...locations.filter((r) => r.category === "Region").map((r) => placeNode(r, r.summary)),
-    ].slice(0, MAX_NEIGHBORS),
-  };
+  return limit({ id: "world", kind: "world", label: "Leonida" }, [
+    ...characters.map((c) => characterNode(c, c.summary)),
+    ...locations.filter((r) => r.category === "Region").map((r) => placeNode(r, r.summary)),
+  ]);
 }
+
+const limit = (center: GraphNode, all: GraphNode[]): Graph => ({
+  center,
+  neighbors: all.slice(0, MAX_NEIGHBORS),
+  hidden: Math.max(0, all.length - MAX_NEIGHBORS),
+});

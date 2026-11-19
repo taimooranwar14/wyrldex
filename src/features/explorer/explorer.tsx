@@ -141,8 +141,8 @@ export function Explorer({ locations, characters, liveAI }: ExplorerProps) {
           )}
         </div>
 
-        {/* On desktop this box is a size container, so the map can fit inside it like object-fit: contain. */}
-        <div className="flex flex-1 items-center justify-center lg:min-h-0 lg:[container-type:size]">
+        {/* The map takes all remaining height on desktop and most of the screen on phones. */}
+        <div className="h-[62svh] lg:h-auto lg:min-h-0 lg:flex-1">
           <WorldMap
             regions={regions}
             locations={visible}
@@ -150,13 +150,8 @@ export function Explorer({ locations, characters, liveAI }: ExplorerProps) {
             onSelect={selectPlace}
             fitTo={highlight?.locations ?? null}
             pulse={highlight !== null}
-            className="w-full lg:w-[min(100cqw,142.857cqh)]"
           />
         </div>
-
-        <p className="truncate font-mono text-[11px] text-muted">
-          Original stylized map, not to scale · scroll or double-click to zoom · drag to pan · Esc to deselect
-        </p>
 
         <div className="grid grid-cols-1 gap-3 lg:h-52 lg:shrink-0 lg:grid-cols-2">
           <WorldGraph graph={graph} onPick={pickNode} />

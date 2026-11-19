@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { LocationSummary } from "@/features/locations/repository";
 import type { AskResult, TraceStep } from "./ask";
+import { describeStep } from "./trace-text";
 import recorded from "./replays.json";
 
 type Replay = { question: string; recordedAt: string; result: AskResult };
@@ -166,35 +167,64 @@ export function AskPanel({ live, onResult, suggestions, onSaveResults }: AskPane
 
 // The Execution Inspector: what the model asked for, what the server checked and ran, and how long each step took.
 function ExecutionTrace({ steps, complete }: { steps: TraceStep[]; complete: boolean }) {
+  const [technical, setTechnical] = useState(false);
   const totalMs = steps.reduce((sum, step) => sum + step.ms, 0);
-  const toolCalls = steps.filter((step) => step.kind === "tool").length;
+  const lookups = steps.filter((step) => step.kind === "tool").length;
   return (
     <div className="mt-4 rounded-xl border border-border bg-background/40 p-3">
-      <h3 className="font-mono text-[10px] uppercase tracking-widest text-muted">Execution trace</h3>
-      <ol className="mt-2 space-y-2 border-l border-border pl-3">
-        {steps.map((step, i) => (
-          <li key={i} className="relative text-xs before:absolute before:top-1.5 before:-left-[15.5px] before:size-1.5 before:rounded-full before:bg-accent before:shadow-[0_0_6px] before:shadow-accent">
-            <div className="flex justify-between gap-2 font-mono">
-              <span className={step.kind === "tool" ? "text-accent" : "text-foreground"}>
-                {step.kind === "model" ? "Model" : `Tool · ${step.name}`}
+      <div className="flex items-center justify-between gap-2">
+        <h3 className="text-xs font-semibold">How the AI answered</h3>
+        <button
+          type="button"
+          aria-expanded={technical}
+          onClick={() => setTechnical(!technical)}
+          className="text-[11px] text-accent underline underline-offset-2"
+        >
+          {technical ? "Hide technical details" : "Technical details"}
+        </button>
+      </div>
+      <ol className="mt-3 space-y-3">
+        {steps.map((step, i) => {
+          const text = describeStep(step);
+          return (
+            <li key={i} className="flex gap-2.5 text-xs">
+              <span
+                aria-hidden
+                className={`mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full border text-[9px] ${
+                  text.ok ? "border-accent/60 text-accent" : "border-highlight/60 text-highlight"
+                }`}
+              >
+                {text.ok ? "✓" : "✕"}
               </span>
-              <span className="text-muted">{formatMs(step.ms)}</span>
-            </div>
-            <p className="mt-0.5 break-words font-mono text-[11px] text-muted">
-              {step.kind === "model"
-                ? step.toolCalls.length
-                  ? `requested ${step.toolCalls.map((c) => `${c.name}(${JSON.stringify(c.arguments)})`).join(", ")}`
-                  : "wrote the final answer"
-                : step.error
-                  ? `refused: ${step.error} ${JSON.stringify(step.arguments)}`
-                  : `validated ${JSON.stringify(step.arguments)} → ${step.slugs?.length ? step.slugs.join(", ") : "no matches"}`}
-            </p>
-          </li>
-        ))}
+              <div className="min-w-0 flex-1">
+                <div className="flex justify-between gap-2">
+                  <span className="font-medium text-foreground">
+                    {text.title}
+                    {!text.ok && <span className="sr-only"> (failed)</span>}
+                  </span>
+                  <span className="shrink-0 text-muted">{formatMs(step.ms)}</span>
+                </div>
+                <p className="mt-0.5 text-muted">{text.detail}</p>
+                {technical && (
+                  <p className="mt-1 break-words font-mono text-[10px] text-muted/80">
+                    {step.kind === "model"
+                      ? step.toolCalls.length
+                        ? `model → ${step.toolCalls.map((c) => `${c.name}(${JSON.stringify(c.arguments)})`).join(", ")}`
+                        : "model → final answer"
+                      : step.error
+                        ? `${step.name}(${JSON.stringify(step.arguments)}) → refused: ${step.error}`
+                        : `${step.name}(${JSON.stringify(step.arguments)}) → ${step.slugs?.join(", ") || "[]"}`}
+                  </p>
+                )}
+              </div>
+            </li>
+          );
+        })}
       </ol>
       {complete && (
-        <p className="mt-3 border-t border-border pt-2 font-mono text-[10px] text-muted">
-          {formatMs(totalMs)} total · {toolCalls} tool {toolCalls === 1 ? "call" : "calls"} · {steps.length} steps
+        <p className="mt-3 border-t border-border pt-2 text-[11px] text-muted">
+          {formatMs(totalMs)} · {lookups} database {lookups === 1 ? "lookup" : "lookups"} · read-only
+          {technical && <span className="font-mono"> · {steps.length} trace steps</span>}
         </p>
       )}
     </div>

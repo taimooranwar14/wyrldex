@@ -1,4 +1,5 @@
 // Original neon-night artwork for the stylized Leonida map (viewBox 1000×700). Static: no props, no state.
+// Transparent background: the map frame paints the sea, so it can extend past the art to fill any space.
 // Not traced from any official map; shapes are invented and only loosely follow the regions' described layout.
 
 const MAINLAND =
@@ -58,10 +59,6 @@ export function MapArt() {
   return (
     <svg viewBox="0 0 1000 700" className="absolute inset-0 size-full" aria-hidden>
       <defs>
-        <radialGradient id="sea" cx="0.6" cy="0.6" r="0.8">
-          <stop offset="0" stopColor="#1a1040" />
-          <stop offset="1" stopColor="#0a0714" />
-        </radialGradient>
         <linearGradient id="land" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#1d1638" />
           <stop offset="1" stopColor="#120c26" />
@@ -78,7 +75,6 @@ export function MapArt() {
         </clipPath>
       </defs>
 
-      <rect width="1000" height="700" fill="url(#sea)" />
 
       {/* Shallow-water rings around the coast */}
       {[1.06, 1.03].map((scale) => (

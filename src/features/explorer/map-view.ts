@@ -41,3 +41,18 @@ export function isInView(view: MapView, point: Point, margin = 0.05): boolean {
   const sy = point.y * view.zoom + view.y;
   return sx > margin && sx < 1 - margin && sy > margin && sy < 1 - margin;
 }
+
+// The art keeps its 10:7 shape and is centred inside a frame of any shape (like object-fit: contain), while the sea
+// fills the rest. This gives the art's box as fractions of the frame, so camera maths can use frame fractions.
+export const ART_RATIO = 10 / 7;
+export type ArtBox = { x: number; y: number; width: number; height: number };
+
+export function artBox(frameWidth: number, frameHeight: number): ArtBox {
+  if (frameWidth <= 0 || frameHeight <= 0) return { x: 0, y: 0, width: 1, height: 1 };
+  const width = Math.min(1, (frameHeight * ART_RATIO) / frameWidth);
+  const height = Math.min(1, frameWidth / ART_RATIO / frameHeight);
+  return { x: (1 - width) / 2, y: (1 - height) / 2, width, height };
+}
+
+// A point on the art (0–1 of the art) as a fraction of the frame.
+export const toFrame = (box: ArtBox, p: Point): Point => ({ x: box.x + p.x * box.width, y: box.y + p.y * box.height });
