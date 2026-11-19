@@ -39,6 +39,14 @@ npm run dev             # http://localhost:3000 (add `-- -p 3123` if 3000 is tak
 npm run lint && npm run typecheck && npm test
 ```
 
+Browser smoke test (clicks through every feature in headless Chrome; needs the app running in public mode):
+
+```bash
+npm run build && npx next start -p 3124   # in one terminal
+node scripts/smoke.mjs http://localhost:3124            # desktop
+node scripts/smoke.mjs http://localhost:3124 390 844    # phone size
+```
+
 ## AI modes
 | Mode | When | What happens |
 |---|---|---|
@@ -48,8 +56,8 @@ npm run lint && npm run typecheck && npm test
 Live mode needs [Ollama](https://ollama.com) and `ollama pull qwen3:8b`. To re-record the replays after changing data or prompts, run the app in live mode and `node scripts/record-replays.mts` (`APP_URL=http://localhost:3123` if not on port 3000). Never hand-edit `src/features/ai/replays.json`.
 
 ## Data
-- **Official (6):** region names from [Rockstar's official GTA VI site](https://www.rockstargames.com/VI).
-- **Community (23):** places seen in the official trailers and screenshots, as described by third-party guides ([ScreenRant](https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/), [gta-6-map.com](https://gta-6-map.com/guides/trailer-locations), [TechNerdiness](https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/)). Marked "Community — unverified" until confirmed. Fan-invented labels and leaks are left out.
+- **Confirmed by Rockstar (6):** region names from [Rockstar's official GTA VI site](https://www.rockstargames.com/VI).
+- **Spotted by fans (23):** places seen in the official trailers and screenshots, as described by third-party guides ([ScreenRant](https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/), [gta-6-map.com](https://gta-6-map.com/guides/trailer-locations), [TechNerdiness](https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/)). Labelled "Spotted by fans" until Rockstar confirms them. Fan-invented labels and leaks are left out.
 
 - **Characters (2) and connections (5):** names are official; each character↔place link is community-reported with its own source and note.
 

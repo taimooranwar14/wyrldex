@@ -24,15 +24,15 @@ export default function About() {
           <section>
             <h2 className="text-base font-semibold text-foreground">Where the data comes from</h2>
             <p className="mt-2">
-              The six region names come from Rockstar Games&apos; official GTA VI site. Other places were spotted by
-              players in the official trailers and screenshots and are marked as community data until confirmed. Every
-              location links to its source, summaries are written in our own words, and the map is original artwork,
-              so positions are illustrative, not in-game coordinates.
+              The six region names come from Rockstar Games&apos; official GTA VI site. Other places were spotted by fans
+              in Rockstar&apos;s trailers and promotional material, and stay marked that way until Rockstar confirms them.
+              Every location links to its source, descriptions are written in our own words, and the map is original
+              artwork, so positions are illustrative, not in-game coordinates.
             </p>
             <ul className="mt-3 space-y-1">
-              <li><span className="text-highlight">Officially confirmed</span>: named by Rockstar Games.</li>
-              <li><span className="text-highlight">Community, unverified</span>: reported by players, not confirmed.</li>
-              <li><span className="text-highlight">Sample data</span>: fictional placeholder for demos.</li>
+              <li><span className="text-accent">Confirmed by Rockstar</span>: named by Rockstar Games itself.</li>
+              <li><span className="text-highlight">Spotted by fans</span>: identified by players, not yet confirmed by Rockstar.</li>
+              <li><span className="text-muted">Demo data</span>: made-up placeholder for demos.</li>
             </ul>
           </section>
 

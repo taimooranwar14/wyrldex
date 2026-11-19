@@ -160,13 +160,14 @@ export function AskPanel({ live, onResult, suggestions, onSaveResults }: AskPane
         )}
       </div>
 
-      {run?.status === "done" && <ExecutionTrace steps={steps.slice(0, shown)} complete={finished} />}
+      {run?.status === "done" && <ExecutionTrace steps={steps.slice(0, shown)} complete={finished} developer={live} />}
     </section>
   );
 }
 
 // The Execution Inspector: what the model asked for, what the server checked and ran, and how long each step took.
-function ExecutionTrace({ steps, complete }: { steps: TraceStep[]; complete: boolean }) {
+// `developer` is true only in live local mode: raw calls and IDs help when building, not when exploring.
+function ExecutionTrace({ steps, complete, developer }: { steps: TraceStep[]; complete: boolean; developer: boolean }) {
   const [technical, setTechnical] = useState(false);
   const totalMs = steps.reduce((sum, step) => sum + step.ms, 0);
   const lookups = steps.filter((step) => step.kind === "tool").length;
@@ -174,14 +175,16 @@ function ExecutionTrace({ steps, complete }: { steps: TraceStep[]; complete: boo
     <div className="mt-4 rounded-xl border border-border bg-background/40 p-3">
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-xs font-semibold">How the AI answered</h3>
-        <button
-          type="button"
-          aria-expanded={technical}
-          onClick={() => setTechnical(!technical)}
-          className="text-[11px] text-accent underline underline-offset-2"
-        >
-          {technical ? "Hide technical details" : "Technical details"}
-        </button>
+        {developer && (
+          <button
+            type="button"
+            aria-expanded={technical}
+            onClick={() => setTechnical(!technical)}
+            className="text-[11px] text-accent underline underline-offset-2"
+          >
+            {technical ? "Hide technical details" : "Technical details"}
+          </button>
+        )}
       </div>
       <ol className="mt-3 space-y-3">
         {steps.map((step, i) => {

@@ -132,3 +132,13 @@
 **Learned / gotchas:**
 - Two Tailwind position classes on one element (`relative` built in, `absolute` passed from outside) do not follow class order; CSS source order decides. Components should fill their parent (`size-full`) and let the parent own position.
 - Laying out the art with CSS (not measured JS) means the first paint is right; the JS measurement is only needed for camera maths.
+
+## 2026-11-19 — Plain wording, real full screen, smoke test
+
+**Built:** descriptions now describe the place, not the media it came from; labels are "Confirmed by Rockstar", "Spotted by fans" and "Demo data". The trace's technical view is developer-only (live mode). Map controls have clear icons and a real full-screen mode (fixed overlay, Esc exits). `scripts/smoke.mjs`: a dependency-free browser smoke test over the DevTools Protocol, 20 checks covering search, filters, the AI replay, collections, graph, regions, Esc, zoom, full screen, About, console errors and horizontal scroll.
+
+**Decisions:** full screen as a CSS overlay, not the Fullscreen API, because iPhone Safari does not support the API for pages. Database enum values (`official`/`community`) stay; only the labels changed.
+
+**Learned / gotchas:**
+- The old ⤢ "reset view" icon looked like a full-screen button. Icons must match what they do.
+- All four first smoke failures were bugs in the test: typing before React hydrated (wait for the `__reactFiber` key), `innerText` applying CSS `uppercase` (use `textContent`), an exact-zoom assumption, and deleting Chrome's profile before it exited.

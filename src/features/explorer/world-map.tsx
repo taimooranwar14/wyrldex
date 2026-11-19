@@ -26,6 +26,7 @@ export function WorldMap({ regions, locations, selectedSlug, onSelect, fitTo = n
   const drag = useRef<{ x: number; y: number; view: MapView } | null>(null);
   const [view, setView] = useState<MapView>(HOME);
   const [dragging, setDragging] = useState(false);
+  const [fullScreen, setFullScreen] = useState(false);
   // Where the art sits inside the frame, for camera maths. CSS places the art itself, so first paint is right
   // even before this is measured.
   const [box, setBox] = useState(() => artBox(1, 1 / (10 / 7)));
@@ -66,12 +67,16 @@ export function WorldMap({ regions, locations, selectedSlug, onSelect, fitTo = n
     return () => observer.disconnect();
   }, []);
 
-  // Escape closes the selection, like closing a callout.
+  // Escape leaves full screen first, then closes the selection (like closing a callout).
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onSelect(null);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (fullScreen) setFullScreen(false);
+      else onSelect(null);
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onSelect]);
+  }, [onSelect, fullScreen]);
 
   const visible = new Set(locations.map((loc) => loc.slug));
   const places = locations.filter((loc) => loc.category !== "Region");
@@ -85,7 +90,8 @@ export function WorldMap({ regions, locations, selectedSlug, onSelect, fitTo = n
   return (
     <div
       ref={frame}
-      className={`relative size-full touch-none overflow-hidden ${dragging ? "cursor-grabbing" : "cursor-grab"} rounded-2xl border border-border bg-[radial-gradient(circle_at_60%_60%,#1a1040,#0a0714_75%)] shadow-[0_0_40px_-10px] shadow-violet/40 ${className}`}
+      // Full screen is a fixed overlay rather than the Fullscreen API, which iPhone Safari does not support for pages.
+      className={`${fullScreen ? "fixed inset-0 z-50" : "relative size-full rounded-2xl border border-border"} touch-none overflow-hidden ${dragging ? "cursor-grabbing" : "cursor-grab"} bg-[radial-gradient(circle_at_60%_60%,#1a1040,#0a0714_75%)] shadow-[0_0_40px_-10px] shadow-violet/40 ${className}`}
       onPointerDown={(e) => {
         if ((e.target as HTMLElement).closest("button")) return; // let pins and controls handle their own clicks
         e.currentTarget.setPointerCapture(e.pointerId);
@@ -213,16 +219,32 @@ export function WorldMap({ regions, locations, selectedSlug, onSelect, fitTo = n
 
       {/* Map controls */}
       <div className="absolute right-2 bottom-2 flex flex-col sm:right-3 sm:bottom-3 overflow-hidden rounded-xl border border-border bg-surface/80 backdrop-blur">
-        <button type="button" aria-label="Zoom in" onClick={() => setView(zoomAt(view, view.zoom * 1.5))} className={controlClass}>
-          +
+        <button
+          type="button"
+          aria-label={fullScreen ? "Exit full screen" : "Full screen map"}
+          aria-pressed={fullScreen}
+          title={fullScreen ? "Exit full screen (Esc)" : "Full screen map"}
+          onClick={() => setFullScreen(!fullScreen)}
+          className={controlClass}
+        >
+          <ControlIcon d={fullScreen ? "M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" : "M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"} />
         </button>
-        <button type="button" aria-label="Zoom out" onClick={() => setView(zoomAt(view, view.zoom / 1.5))} className={controlClass}>
-          −
+        <button type="button" aria-label="Zoom in" title="Zoom in" onClick={() => setView(zoomAt(view, view.zoom * 1.5))} className={controlClass}>
+          <ControlIcon d="M12 5v14M5 12h14" />
         </button>
-        <button type="button" aria-label="Reset view" onClick={() => setView(HOME)} className={controlClass}>
-          ⤢
+        <button type="button" aria-label="Zoom out" title="Zoom out" onClick={() => setView(zoomAt(view, view.zoom / 1.5))} className={controlClass}>
+          <ControlIcon d="M5 12h14" />
+        </button>
+        <button type="button" aria-label="Show the whole map" title="Show the whole map" onClick={() => setView(HOME)} className={controlClass}>
+          <ControlIcon d="M3 11l9-7 9 7M5 10v10h14V10" />
         </button>
       </div>
     </div>
   );
 }
+
+const ControlIcon = ({ d }: { d: string }) => (
+  <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d={d} />
+  </svg>
+);

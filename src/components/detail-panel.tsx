@@ -4,9 +4,9 @@ import type { CharacterSummary } from "@/features/graph/repository";
 import type { LocationSummary } from "@/features/locations/repository";
 
 const verification: Record<Verification, { label: string; text: string; border: string }> = {
-  official: { label: "Officially confirmed", text: "text-accent", border: "border-accent/50" },
-  community: { label: "Community — unverified", text: "text-highlight", border: "border-highlight/50" },
-  sample: { label: "Sample data — fictional", text: "text-muted", border: "border-border" },
+  official: { label: "Confirmed by Rockstar", text: "text-accent", border: "border-accent/50" },
+  community: { label: "Spotted by fans", text: "text-highlight", border: "border-highlight/50" },
+  sample: { label: "Demo data", text: "text-muted", border: "border-border" },
 };
 
 type DetailPanelProps = {
