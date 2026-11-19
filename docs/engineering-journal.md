@@ -62,3 +62,16 @@
 **Learned / gotchas:**
 - `migrate deploy` (CI/production) only applies existing migrations; `migrate dev` (local) also creates new ones and may reset data.
 - Dry-ran the whole pipeline locally from a fresh `git clone` against an empty database before pushing: cheaper than debugging in CI.
+
+## 2026-11-19 — M6: Local AI tool call
+
+**Built:** `POST /api/ai/ask` → Ollama (`qwen3:8b`) → whitelisted `searchLocations` tool → Zod → existing repository → grounded answer + trace. Gated by `AI_MODE=local`. 9 new unit tests with Ollama mocked. See [ADR-0003](adr/0003-local-ai-tool-calling.md).
+
+**Decisions:** launch slipped from Nov 19 to ~Nov 26 so the release keeps the AI demo story.
+
+**Learned / gotchas:**
+- Tool calling is a request, not an execution: the model returns `tool_calls`, and our server decides whether to run them.
+- Ollama returns tool `arguments` as a parsed object, not a JSON string (unlike some cloud APIs).
+- A loop cap alone still ends without an answer; sending the last call without tools forces one.
+- The first call after idle took ~13 s, 10 s of which was loading the model; warm calls take ~1–2 s per model step.
+- macOS clears `$TMPDIR`: the session handoff file there was gone. Keep handoffs in the repo or memory.
