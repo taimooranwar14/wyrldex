@@ -1,57 +1,76 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CategoryIcon } from "@/components/category-icon";
 import type { LocationSummary } from "@/features/locations/repository";
 import { MapArt } from "./map-art";
+import { centerOn, clampView, fitPoints, HOME, isInView, zoomAt, type MapView } from "./map-view";
 
 type WorldMapProps = {
   regions: LocationSummary[]; // always drawn as labels, so the map keeps its bearings under any filter
   locations: LocationSummary[]; // currently visible results
   selectedSlug: string | null;
-  onSelect: (slug: string) => void;
-  pulse?: boolean; // AI results: draw attention to every visible pin
+  onSelect: (slug: string | null) => void;
+  fitTo?: LocationSummary[] | null; // when this list changes (AI answer, collection, character), zoom to show it
+  pulse?: boolean; // highlighted results: draw attention to every visible pin
   className?: string;
 };
 
-const MIN_ZOOM = 1;
-const MAX_ZOOM = 4;
 const DETAIL_ZOOM = 2; // below this, places are small dots so dense areas stay readable
 const avg = (values: number[]) => values.reduce((sum, v) => sum + v, 0) / values.length;
 const controlClass =
   "flex size-7 items-center justify-center text-base sm:size-9 sm:text-lg text-muted transition-colors hover:bg-violet/20 hover:text-foreground";
 
-// Everything inside `layer` (art, labels, pins) shares one transform, so pins stay glued to the art.
+// Everything inside the layer (art, labels, pins) shares one transform, so pins stay glued to the art.
 // Pins and labels are counter-scaled, so they keep their size while the map zooms.
-export function WorldMap({ regions, locations, selectedSlug, onSelect, pulse = false, className = "" }: WorldMapProps) {
+export function WorldMap({ regions, locations, selectedSlug, onSelect, fitTo = null, pulse = false, className = "" }: WorldMapProps) {
   const frame = useRef<HTMLDivElement>(null);
-  const drag = useRef<{ x: number; y: number; panX: number; panY: number } | null>(null);
-  const [view, setView] = useState({ zoom: 1, x: 0, y: 0 });
+  const drag = useRef<{ x: number; y: number; view: MapView } | null>(null);
+  const [view, setView] = useState<MapView>(HOME);
   const [dragging, setDragging] = useState(false);
 
-  // Keep the map covering the frame: no dragging it off into empty space.
-  function clamp(zoom: number, x: number, y: number) {
-    const { width, height } = frame.current!.getBoundingClientRect();
-    return {
-      zoom,
-      x: Math.min(0, Math.max(width * (1 - zoom), x)),
-      y: Math.min(0, Math.max(height * (1 - zoom), y)),
-    };
+  // React to new results or a new selection by moving the camera. Adjusting state during render (not in an effect)
+  // is React's recommended pattern for "when this prop changes, update that state".
+  const [seen, setSeen] = useState({ fitTo, selectedSlug });
+  if (seen.fitTo !== fitTo || seen.selectedSlug !== selectedSlug) {
+    setSeen({ fitTo, selectedSlug });
+    const selected = locations.find((loc) => loc.slug === selectedSlug && loc.category !== "Region");
+    if (seen.fitTo !== fitTo && fitTo?.length) setView(fitPoints(fitTo));
+    else if (selected && !isInView(view, selected)) setView(centerOn(selected, Math.max(view.zoom, 2.5)));
   }
 
-  // Zoom around a point given as 0–1 fractions of the map (default: the centre of what you see).
-  function zoomTo(zoom: number, focus?: { x: number; y: number }) {
-    const { width, height } = frame.current!.getBoundingClientRect();
-    const next = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom));
-    const fx = focus ? focus.x * width * view.zoom + view.x : width / 2;
-    const fy = focus ? focus.y * height * view.zoom + view.y : height / 2;
-    const scale = next / view.zoom;
-    const target = focus ? { x: width / 2, y: height / 2 } : { x: fx, y: fy };
-    setView(clamp(next, target.x - (fx - view.x) * scale, target.y - (fy - view.y) * scale));
-  }
+  // Pointer position as a 0–1 fraction of the frame.
+  const toFraction = (clientX: number, clientY: number) => {
+    const rect = frame.current!.getBoundingClientRect();
+    return { x: (clientX - rect.left) / rect.width, y: (clientY - rect.top) / rect.height };
+  };
+
+  // Wheel zoom needs a non-passive listener to stop the page scrolling, which React's onWheel cannot do.
+  useEffect(() => {
+    const el = frame.current!;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const rect = el.getBoundingClientRect();
+      const point = { x: (e.clientX - rect.left) / rect.width, y: (e.clientY - rect.top) / rect.height };
+      setView((v) => zoomAt(v, v.zoom * (e.deltaY < 0 ? 1.15 : 1 / 1.15), point));
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
+
+  // Escape closes the selection, like closing a callout.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onSelect(null);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onSelect]);
 
   const visible = new Set(locations.map((loc) => loc.slug));
   const places = locations.filter((loc) => loc.category !== "Region");
   const detailed = view.zoom >= DETAIL_ZOOM;
   const counter = { transform: `scale(${1 / view.zoom})` };
+  const endDrag = () => {
+    drag.current = null;
+    setDragging(false);
+  };
 
   return (
     <div
@@ -60,25 +79,32 @@ export function WorldMap({ regions, locations, selectedSlug, onSelect, pulse = f
       onPointerDown={(e) => {
         if ((e.target as HTMLElement).closest("button")) return; // let pins and controls handle their own clicks
         e.currentTarget.setPointerCapture(e.pointerId);
-        drag.current = { x: e.clientX, y: e.clientY, panX: view.x, panY: view.y };
+        drag.current = { x: e.clientX, y: e.clientY, view };
         setDragging(true);
       }}
       onPointerMove={(e) => {
         if (!drag.current) return;
-        setView(clamp(view.zoom, drag.current.panX + e.clientX - drag.current.x, drag.current.panY + e.clientY - drag.current.y));
+        const rect = e.currentTarget.getBoundingClientRect();
+        const start = drag.current.view;
+        setView(
+          clampView({
+            ...start,
+            x: start.x + (e.clientX - drag.current.x) / rect.width,
+            y: start.y + (e.clientY - drag.current.y) / rect.height,
+          }),
+        );
       }}
-      onPointerUp={() => {
-        drag.current = null;
-        setDragging(false);
-      }}
-      onPointerCancel={() => {
-        drag.current = null;
-        setDragging(false);
+      onPointerUp={endDrag}
+      onPointerCancel={endDrag}
+      onDoubleClick={(e) => {
+        if ((e.target as HTMLElement).closest("button")) return;
+        setView(zoomAt(view, view.zoom * 2, toFraction(e.clientX, e.clientY)));
       }}
     >
       <div
-        className={`absolute inset-0 origin-top-left ${dragging ? "" : "transition-transform duration-300 ease-out"}`}
-        style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.zoom})` }}
+        className={`absolute inset-0 origin-top-left ${dragging ? "" : "transition-transform duration-500 ease-out"}`}
+        // Percent translate is relative to the layer itself, which is exactly the frame's size.
+        style={{ transform: `translate(${view.x * 100}%, ${view.y * 100}%) scale(${view.zoom})` }}
       >
         <MapArt />
 
@@ -97,7 +123,7 @@ export function WorldMap({ regions, locations, selectedSlug, onSelect, pulse = f
                 const focus = inside.length
                   ? { x: avg(inside.map((p) => p.x)), y: avg(inside.map((p) => p.y)) }
                   : region;
-                zoomTo(Math.max(view.zoom, 2.5), focus);
+                setView(centerOn(focus, Math.max(view.zoom, 2.5)));
               }}
               className="absolute"
               // Labels near the west edge start at their point instead of centring on it, so they are not cut off.
@@ -170,13 +196,13 @@ export function WorldMap({ regions, locations, selectedSlug, onSelect, pulse = f
 
       {/* Map controls */}
       <div className="absolute right-2 bottom-2 flex flex-col sm:right-3 sm:bottom-3 overflow-hidden rounded-xl border border-border bg-surface/80 backdrop-blur">
-        <button type="button" aria-label="Zoom in" onClick={() => zoomTo(view.zoom * 1.5)} className={controlClass}>
+        <button type="button" aria-label="Zoom in" onClick={() => setView(zoomAt(view, view.zoom * 1.5))} className={controlClass}>
           +
         </button>
-        <button type="button" aria-label="Zoom out" onClick={() => zoomTo(view.zoom / 1.5)} className={controlClass}>
+        <button type="button" aria-label="Zoom out" onClick={() => setView(zoomAt(view, view.zoom / 1.5))} className={controlClass}>
           −
         </button>
-        <button type="button" aria-label="Reset view" onClick={() => setView({ zoom: 1, x: 0, y: 0 })} className={controlClass}>
+        <button type="button" aria-label="Reset view" onClick={() => setView(HOME)} className={controlClass}>
           ⤢
         </button>
       </div>

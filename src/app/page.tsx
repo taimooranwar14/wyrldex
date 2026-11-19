@@ -4,15 +4,19 @@ import { DetailPanel } from "@/components/detail-panel";
 import { Sidebar } from "@/components/sidebar";
 import { TopBar } from "@/components/top-bar";
 import { Explorer } from "@/features/explorer/explorer";
+import { listCharacters } from "@/features/graph/repository";
 import { listLocations } from "@/features/locations/repository";
 import { DEFAULT_WORLD_SLUG } from "@/features/locations/schema";
 import { brand } from "@/lib/brand";
 
 async function ExplorerWithData() {
   await connection(); // Query per request, never at build time, so builds and CI need no database.
-  const locations = await listLocations({ world: DEFAULT_WORLD_SLUG, limit: 100 });
+  const [locations, characters] = await Promise.all([
+    listLocations({ world: DEFAULT_WORLD_SLUG, limit: 100 }),
+    listCharacters(DEFAULT_WORLD_SLUG),
+  ]);
   // Live AI only when the developer opts in; everyone else gets the labelled recorded replay.
-  return <Explorer locations={locations} liveAI={process.env.AI_MODE === "local"} />;
+  return <Explorer locations={locations} characters={characters} liveAI={process.env.AI_MODE === "local"} />;
 }
 
 export default function Home() {

@@ -1,11 +1,13 @@
 // Unit test: Ollama and the database are mocked, so this runs in CI without either.
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { findConnections } from "@/features/graph/repository";
 import { listLocations } from "@/features/locations/repository";
 import { askLocations } from "./ask";
 import { chat, type AssistantMessage } from "./ollama";
 
 vi.mock("./ollama", () => ({ chat: vi.fn(), OLLAMA_MODEL: "test-model" }));
 vi.mock("@/features/locations/repository", () => ({ listLocations: vi.fn() }));
+vi.mock("@/features/graph/repository", () => ({ findConnections: vi.fn() }));
 
 const pier = { slug: "pier", name: "Pier", category: "Landmark", region: null, x: 1, y: 2, summary: "A pier", verification: "official", sourceUrl: null };
 const toolCall = (name: string, args: unknown): AssistantMessage => ({
@@ -18,6 +20,9 @@ const answer = (content: string): AssistantMessage => ({ role: "assistant", cont
 beforeEach(() => {
   vi.mocked(chat).mockReset();
   vi.mocked(listLocations).mockReset().mockResolvedValue([pier] as never);
+  vi.mocked(findConnections).mockReset().mockResolvedValue([
+    { note: "Her story opens here.", verification: "community", character: { name: "Lucia Caminos" }, location: pier },
+  ] as never);
 });
 
 describe("askLocations", () => {
@@ -34,6 +39,8 @@ describe("askLocations", () => {
 
   it.each([
     ["an unknown tool", toolCall("dropTables", {}), "Unknown tool"],
+    ["a prototype key posing as a tool", toolCall("constructor", {}), "Unknown tool"],
+    ["invalid connection arguments", toolCall("findConnections", { name: 42 }), "Invalid arguments"],
     ["invalid arguments", toolCall("searchLocations", { q: "" }), "Invalid arguments"],
   ])("refuses %s without touching the database", async (_, reply, error) => {
     vi.mocked(chat).mockResolvedValueOnce(reply).mockResolvedValueOnce(answer("Sorry."));
@@ -41,8 +48,19 @@ describe("askLocations", () => {
     const result = await askLocations("hi");
 
     expect(listLocations).not.toHaveBeenCalled();
+    expect(findConnections).not.toHaveBeenCalled();
     expect(result.trace[1]).toMatchObject({ kind: "tool", error });
     expect(result.locations).toEqual([]);
+  });
+
+  it("finds places connected to a character and highlights them", async () => {
+    vi.mocked(chat).mockResolvedValueOnce(toolCall("findConnections", { name: "Lucia" })).mockResolvedValueOnce(answer("The Pier."));
+
+    const result = await askLocations("Find locations connected to Lucia");
+
+    expect(findConnections).toHaveBeenCalledWith("leonida", "Lucia");
+    expect(result.locations).toEqual([pier]);
+    expect(result.trace[1]).toMatchObject({ name: "findConnections", slugs: ["pier"] });
   });
 
   it("stops after three model calls and offers no tools on the last one", async () => {

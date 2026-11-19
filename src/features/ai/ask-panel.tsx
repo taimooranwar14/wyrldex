@@ -17,10 +17,15 @@ type Run =
 type AskPanelProps = {
   live: boolean; // true only when the server has AI_MODE=local
   onResult: (locations: LocationSummary[] | null) => void;
+  suggestions: string[]; // follow the selected place or character
+  onSaveResults: (name: string, slugs: string[]) => void;
 };
 
-export function AskPanel({ live, onResult }: AskPanelProps) {
+const recordedQuestions = new Set(replays.map((r) => r.question));
+
+export function AskPanel({ live, onResult, suggestions, onSaveResults }: AskPanelProps) {
   const [question, setQuestion] = useState("");
+  const [savedRun, setSavedRun] = useState<Run | null>(null); // the run whose results were saved, to show "Saved"
   const [run, setRun] = useState<Run | null>(null);
   const [shown, setShown] = useState(0); // how many trace steps are revealed
 
@@ -107,16 +112,20 @@ export function AskPanel({ live, onResult }: AskPanelProps) {
         </form>
       )}
 
-      <div role="group" aria-label="Example questions" className="mt-3 flex flex-wrap gap-2">
-        {replays.map((r) => (
+      {/* Public mode can only offer questions that have a real recording. */}
+      <div role="group" aria-label="Suggested questions" className="mt-3 flex flex-wrap gap-2">
+        {suggestions
+          .filter((q) => live || recordedQuestions.has(q))
+          .slice(0, 5)
+          .map((q) => (
           <button
-            key={r.question}
+            key={q}
             type="button"
             disabled={busy}
-            onClick={() => ask(r.question)}
+            onClick={() => ask(q)}
             className="min-h-8 rounded-full border border-border bg-surface/70 px-3 text-left text-xs text-foreground transition-colors hover:border-accent hover:text-accent disabled:opacity-50"
           >
-            {r.question}
+            {q}
           </button>
         ))}
       </div>
@@ -133,6 +142,19 @@ export function AskPanel({ live, onResult }: AskPanelProps) {
                 ? `Recorded ${new Date(run.recordedAt).toLocaleDateString()} with ${run.result.model}, replayed at recorded speed.`
                 : `Live answer from ${run.result.model} on this machine.`}
             </p>
+            {run.result.locations.length > 0 && (
+              <button
+                type="button"
+                disabled={savedRun === run}
+                onClick={() => {
+                  onSaveResults(run.question, run.result.locations.map((loc) => loc.slug));
+                  setSavedRun(run);
+                }}
+                className="mt-3 rounded-full border border-violet/60 px-3 py-1 text-xs text-violet hover:bg-violet/10 disabled:border-border disabled:text-muted"
+              >
+                {savedRun === run ? "Saved to Collections" : `Save ${run.result.locations.length} places as a collection`}
+              </button>
+            )}
           </>
         )}
       </div>

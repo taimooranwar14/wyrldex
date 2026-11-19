@@ -14,7 +14,7 @@ describe("GET /api/locations", () => {
   it("returns every seeded location by default", async () => {
     const { status, body } = await get("");
     expect(status).toBe(200);
-    expect(body.locations).toHaveLength(28);
+    expect(body.locations).toHaveLength(29);
   });
 
   it("filters by category", async () => {
@@ -23,7 +23,7 @@ describe("GET /api/locations", () => {
   });
 
   it("searches name, summary, category and region, ignoring case", async () => {
-    expect(slugs((await get("?q=GELLHORN")).body)).toEqual(["pawn-and-gun", "port-gellhorn", "starlet-motel"]);
+    expect(slugs((await get("?q=GELLHORN")).body)).toEqual(["pawn-and-gun", "port-gellhorn", "starlet-motel", "uncle-jacks-liquor"]);
     expect(slugs((await get("?q=wetland")).body)).toEqual(["grassrivers"]);
     expect(slugs((await get("?q=nightlife")).body)).toEqual(["effluvia", "nine1nine"]);
   });

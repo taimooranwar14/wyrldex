@@ -50,6 +50,7 @@ const community = [
   { slug: "key-lento", name: "Key Lento", category: "District", region: "Leonida Keys", x: 0.215, y: 0.95, summary: "Island town where Jason's scenes in the second trailer take place.", sourceUrl: trailerMap },
   { slug: "brians-marina", name: "Brian's Marina", category: "Transport", region: "Leonida Keys", x: 0.235, y: 0.915, summary: "Marina and hangar seen in the second trailer.", sourceUrl: trailerMap },
   { slug: "starlet-motel", name: "Starlet Motel", category: "Hotel", region: "Port Gellhorn", x: 0.125, y: 0.265, summary: "Motel shown in an official Rockstar screenshot.", sourceUrl: trailerMap },
+  { slug: "uncle-jacks-liquor", name: "Uncle Jack's Liquor", category: "Shop", region: "Port Gellhorn", x: 0.095, y: 0.345, summary: "Liquor store robbed in the first trailer.", sourceUrl: screenRant },
   { slug: "pawn-and-gun", name: "Pawn & Gun", category: "Shop", region: "Port Gellhorn", x: 0.08, y: 0.33, summary: "Gun shop next to the store robbery in the first trailer.", sourceUrl: trailerMap },
   { slug: "sugar-refinery", name: "Sugar refinery", category: "Landmark", region: "Ambrosia", x: 0.345, y: 0.495, summary: "Refinery shown with a biker gang in an official Rockstar screenshot.", sourceUrl: trailerMap },
   { slug: "leonida-penitentiary", name: "Leonida Penitentiary", category: "Landmark", region: null, x: 0.46, y: 0.745, summary: "Prison where Lucia's story opens in the first trailer.", sourceUrl: trailerMap },
@@ -70,5 +71,39 @@ for (const loc of locations) {
   });
 }
 
-console.log(`Seeded ${locations.length} locations into "${world.slug}".`);
+// Names are official (Rockstar's GTA VI site). Connections are community-reported, each with its own source.
+const characters = [
+  { slug: "lucia", name: "Lucia Caminos", summary: "One of the game's two protagonists, alongside Jason." },
+  { slug: "jason", name: "Jason Duval", summary: "One of the game's two protagonists, alongside Lucia." },
+].map((c) => ({ ...c, verification: "official" as const, sourceUrl: officialSource }));
+
+const connections = [
+  { character: "lucia", location: "leonida-penitentiary", note: "Her story opens in a cell here in the first trailer.", sourceUrl: trailerMap },
+  { character: "lucia", location: "uncle-jacks-liquor", note: "Robs this store with her partner in the first trailer.", sourceUrl: screenRant },
+  { character: "jason", location: "leonida-keys", note: "Lives in the Keys, according to guides covering the second trailer.", sourceUrl: trailerMap },
+  { character: "jason", location: "key-lento", note: "His scenes in the second trailer take place here.", sourceUrl: trailerMap },
+  { character: "jason", location: "brians-marina", note: "Seen at the marina and hangar in the second trailer.", sourceUrl: trailerMap },
+].map((c) => ({ ...c, verification: "community" as const }));
+
+for (const { slug, ...data } of characters) {
+  await db.character.upsert({
+    where: { worldId_slug: { worldId, slug } },
+    update: data,
+    create: { ...data, slug, worldId },
+  });
+}
+
+for (const { character, location, ...data } of connections) {
+  const [{ id: characterId }, { id: locationId }] = await Promise.all([
+    db.character.findUniqueOrThrow({ where: { worldId_slug: { worldId, slug: character } } }),
+    db.location.findUniqueOrThrow({ where: { worldId_slug: { worldId, slug: location } } }),
+  ]);
+  await db.connection.upsert({
+    where: { characterId_locationId: { characterId, locationId } },
+    update: data,
+    create: { ...data, characterId, locationId },
+  });
+}
+
+console.log(`Seeded ${locations.length} locations, ${characters.length} characters, ${connections.length} connections into "${world.slug}".`);
 await db.$disconnect();

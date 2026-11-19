@@ -109,3 +109,16 @@
 - The dev server's cached Prisma client (kept on `globalThis` across hot reloads) does not see new columns: restart `next dev` after `prisma generate`.
 - The React Compiler lint (`react-hooks/refs`) flags handlers built inside array literals during render; write the buttons out instead.
 - Several guide sites block automated fetches (403/405); record which sources were actually read.
+
+## 2026-11-19 — World Graph, Collections, smarter map and questions
+
+**Built:** `Character` and `Connection` tables (Jason, Lucia; 5 sourced links), World Graph (radial, keyboard-accessible), Collections in localStorage with "Save as collection" after an AI answer, a second AI tool `findConnections`, context-aware suggested questions (shared with the recorder so all 20 are recorded), map camera in fractions with wheel/double-click zoom, fit-to-results, centre-on-select and Esc. See [ADR-0004](adr/0004-world-graph-and-collections.md).
+
+**Verified:** 47 tests; headless Chrome flows for the Lucia demo, saving a collection, focusing a character, zooming a region, at desktop and phone width (page width 390 = viewport, no horizontal scroll).
+
+**Learned / gotchas:**
+- The brief's headline demo, "Find locations connected to Lucia", now runs for real: model → `findConnections({name: "Lucia"})` → 2 sourced places.
+- Recording again caught a wrong answer: told to use "one keyword", the model searched `hotel` and called a Port Gellhorn motel a Vice City hotel. Letting it pass `hotel vice city` (search already ANDs words) fixed it.
+- Repeated React keys leave stale elements in the DOM; derived lists used as keys must be de-duplicated at the source.
+- "Adjust state during render" (compare with a stored previous prop) moves the map camera when results change, without an effect and without the set-state-in-effect lint error.
+- A CSS grid with no column template sizes to content; `grid-cols-1` (`minmax(0, 1fr)`) stops long content forcing horizontal scroll on phones.

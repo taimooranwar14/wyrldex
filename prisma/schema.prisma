@@ -23,6 +23,7 @@ model World {
   name        String
   description String
   locations   Location[]
+  characters  Character[]
 }
 
 model Location {
@@ -41,7 +42,36 @@ model Location {
   verification Verification
   /// Where the facts come from. Required for official/community records; summaries are written in our own words.
   sourceUrl    String?
+  connections  Connection[]
 
   @@unique([worldId, slug])
   @@index([worldId, category])
+}
+
+model Character {
+  id           String       @id @default(cuid())
+  worldId      String
+  world        World        @relation(fields: [worldId], references: [id], onDelete: Cascade)
+  slug         String
+  name         String
+  summary      String
+  verification Verification
+  sourceUrl    String?
+  connections  Connection[]
+
+  @@unique([worldId, slug])
+}
+
+/// A sourced link between a character and a place (e.g. "her story opens here"). Each claim carries its own provenance.
+model Connection {
+  id           String       @id @default(cuid())
+  characterId  String
+  character    Character    @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  locationId   String
+  location     Location     @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  note         String
+  verification Verification
+  sourceUrl    String?
+
+  @@unique([characterId, locationId])
 }

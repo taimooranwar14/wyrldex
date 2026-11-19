@@ -6,7 +6,7 @@
 
 > Independent, unofficial fan project. Not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive. "Wyrldex" is a provisional name.
 
-![Explorer zoomed into Vice City after an AI answer, with its execution trace and place details](docs/screenshots/explorer-ask-ai.png)
+![Explorer after asking for Lucia's locations: map, World Graph, Collections, execution trace and character details](docs/screenshots/explorer-ask-ai.png)
 
 ## Status
 | Feature | Status |
@@ -21,7 +21,8 @@
 | Local AI tool call (`POST /api/ai/ask`, developer-only) | ✅ Done |
 | Ask AI panel + Execution Inspector + recorded replay | ✅ Done |
 | UI polish: map art, About page, favicon | ✅ Done |
-| Community data (22 places) + neon map v2 (zoom/pan, icon pins, region labels) | ✅ Done |
+| Community data (23 places) + neon map v2 (zoom/pan, icon pins, region labels) | ✅ Done |
+| World Graph (characters ↔ places), Collections, context-aware AI questions, `findConnections` tool | ✅ Done |
 | Public hosting | 📋 Not yet (runs locally) |
 
 ## Quickstart
@@ -48,7 +49,9 @@ Live mode needs [Ollama](https://ollama.com) and `ollama pull qwen3:8b`. To re-r
 
 ## Data
 - **Official (6):** region names from [Rockstar's official GTA VI site](https://www.rockstargames.com/VI).
-- **Community (22):** places seen in the official trailers and screenshots, as described by third-party guides ([ScreenRant](https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/), [gta-6-map.com](https://gta-6-map.com/guides/trailer-locations), [TechNerdiness](https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/)). Marked "Community — unverified" until confirmed. Fan-invented labels and leaks are left out.
+- **Community (23):** places seen in the official trailers and screenshots, as described by third-party guides ([ScreenRant](https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/), [gta-6-map.com](https://gta-6-map.com/guides/trailer-locations), [TechNerdiness](https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/)). Marked "Community — unverified" until confirmed. Fan-invented labels and leaks are left out.
+
+- **Characters (2) and connections (5):** names are official; each character↔place link is community-reported with its own source and note.
 
 Summaries are written in our own words and every record links to its source. Map positions are illustrative, on an original stylized map. No Rockstar logos, screenshots or character art are used.
 

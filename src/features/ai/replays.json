@@ -1,11 +1,143 @@
 [
   {
-    "question": "Which hotels are in Vice City?",
-    "recordedAt": "2026-11-19T19:17:57.498Z",
+    "question": "What is in Ambrosia?",
+    "recordedAt": "2026-11-19T19:40:48.333Z",
     "result": {
       "mode": "live-local",
       "model": "qwen3:8b",
-      "answer": "In Vice City, you can find the Dominion Hotel, Hotel Dixon, Ocean View Hotel, and Vice Beach, which features high-rise hotels and a boardwalk.",
+      "answer": "Ambrosia is a central region in Leonida. It is home to the Sugar refinery, a landmark featured in an official Rockstar screenshot with a biker gang.",
+      "locations": [
+        {
+          "slug": "ambrosia",
+          "name": "Ambrosia",
+          "category": "Region",
+          "region": null,
+          "x": 0.31,
+          "y": 0.52,
+          "summary": "A region at the centre of the state.",
+          "verification": "official",
+          "sourceUrl": "https://www.rockstargames.com/VI"
+        },
+        {
+          "slug": "sugar-refinery",
+          "name": "Sugar refinery",
+          "category": "Landmark",
+          "region": "Ambrosia",
+          "x": 0.345,
+          "y": 0.495,
+          "summary": "Refinery shown with a biker gang in an official Rockstar screenshot.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1769,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "searchLocations",
+              "arguments": {
+                "q": "Ambrosia"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 33,
+          "name": "searchLocations",
+          "arguments": {
+            "q": "Ambrosia"
+          },
+          "slugs": [
+            "ambrosia",
+            "sugar-refinery"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 2226,
+          "content": "Ambrosia is a central region in Leonida. It is home to the Sugar refinery, a landmark featured in an official Rockstar screenshot with a biker gang.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "Find locations connected to Lucia",
+    "recordedAt": "2026-11-19T19:40:51.297Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Lucia Caminos is connected to Leonida Penitentiary and Uncle Jack's Liquor in Port Gellhorn.",
+      "locations": [
+        {
+          "slug": "leonida-penitentiary",
+          "name": "Leonida Penitentiary",
+          "category": "Landmark",
+          "region": null,
+          "x": 0.46,
+          "y": 0.745,
+          "summary": "Prison where Lucia's story opens in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "uncle-jacks-liquor",
+          "name": "Uncle Jack's Liquor",
+          "category": "Shop",
+          "region": "Port Gellhorn",
+          "x": 0.095,
+          "y": 0.345,
+          "summary": "Liquor store robbed in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1140,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "findConnections",
+              "arguments": {
+                "name": "Lucia"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 27,
+          "name": "findConnections",
+          "arguments": {
+            "name": "Lucia"
+          },
+          "slugs": [
+            "leonida-penitentiary",
+            "uncle-jacks-liquor"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 1785,
+          "content": "Lucia Caminos is connected to Leonida Penitentiary and Uncle Jack's Liquor in Port Gellhorn.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "Which hotels are in Vice City?",
+    "recordedAt": "2026-11-19T19:40:55.264Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "There are several hotels in Vice City, including the Dominion Hotel, Hotel Dixon, Ocean View Hotel, and Vice Beach, which features high-rise hotels and a boardwalk.",
       "locations": [
         {
           "slug": "dominion-hotel",
@@ -52,17 +184,6 @@
           "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
         },
         {
-          "slug": "starlet-motel",
-          "name": "Starlet Motel",
-          "category": "Hotel",
-          "region": "Port Gellhorn",
-          "x": 0.125,
-          "y": 0.265,
-          "summary": "Motel shown in an official Rockstar screenshot.",
-          "verification": "community",
-          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
-        },
-        {
           "slug": "vice-beach",
           "name": "Vice Beach",
           "category": "Beach",
@@ -77,37 +198,36 @@
       "trace": [
         {
           "kind": "model",
-          "ms": 1028,
+          "ms": 1209,
           "content": "",
           "toolCalls": [
             {
               "name": "searchLocations",
               "arguments": {
-                "q": "hotel"
+                "q": "hotel vice city"
               }
             }
           ]
         },
         {
           "kind": "tool",
-          "ms": 14,
+          "ms": 10,
           "name": "searchLocations",
           "arguments": {
-            "q": "hotel"
+            "q": "hotel vice city"
           },
           "slugs": [
             "dominion-hotel",
             "hotel-dixon",
             "ocean-beach",
             "ocean-view-hotel",
-            "starlet-motel",
             "vice-beach"
           ]
         },
         {
           "kind": "model",
-          "ms": 2716,
-          "content": "In Vice City, you can find the Dominion Hotel, Hotel Dixon, Ocean View Hotel, and Vice Beach, which features high-rise hotels and a boardwalk.",
+          "ms": 2740,
+          "content": "There are several hotels in Vice City, including the Dominion Hotel, Hotel Dixon, Ocean View Hotel, and Vice Beach, which features high-rise hotels and a boardwalk.",
           "toolCalls": []
         }
       ]
@@ -115,11 +235,11 @@
   },
   {
     "question": "Where can I go out at night?",
-    "recordedAt": "2026-11-19T19:18:00.914Z",
+    "recordedAt": "2026-11-19T19:40:58.888Z",
     "result": {
       "mode": "live-local",
       "model": "qwen3:8b",
-      "answer": "You can go out at night to Effluvia, a rooftop bar in Vice City, or to NINE1NINE, a downtown nightclub also in Vice City.",
+      "answer": "You can go out at night to places like Effluvia, a rooftop bar in Vice City, or NINE1NINE, a downtown nightclub also located in Vice City.",
       "locations": [
         {
           "slug": "effluvia",
@@ -147,7 +267,7 @@
       "trace": [
         {
           "kind": "model",
-          "ms": 1134,
+          "ms": 1115,
           "content": "",
           "toolCalls": [
             {
@@ -160,7 +280,7 @@
         },
         {
           "kind": "tool",
-          "ms": 9,
+          "ms": 11,
           "name": "searchLocations",
           "arguments": {
             "q": "nightlife"
@@ -172,62 +292,8 @@
         },
         {
           "kind": "model",
-          "ms": 2262,
-          "content": "You can go out at night to Effluvia, a rooftop bar in Vice City, or to NINE1NINE, a downtown nightclub also in Vice City.",
-          "toolCalls": []
-        }
-      ]
-    }
-  },
-  {
-    "question": "What is on the west coast?",
-    "recordedAt": "2026-11-19T19:18:03.373Z",
-    "result": {
-      "mode": "live-local",
-      "model": "qwen3:8b",
-      "answer": "Port Gellhorn is a faded port town located on the western coast of Leonida.",
-      "locations": [
-        {
-          "slug": "port-gellhorn",
-          "name": "Port Gellhorn",
-          "category": "Region",
-          "region": null,
-          "x": 0.1,
-          "y": 0.3,
-          "summary": "A faded port town on the western coast.",
-          "verification": "official",
-          "sourceUrl": "https://www.rockstargames.com/VI"
-        }
-      ],
-      "trace": [
-        {
-          "kind": "model",
-          "ms": 1116,
-          "content": "",
-          "toolCalls": [
-            {
-              "name": "searchLocations",
-              "arguments": {
-                "q": "west coast"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "tool",
-          "ms": 9,
-          "name": "searchLocations",
-          "arguments": {
-            "q": "west coast"
-          },
-          "slugs": [
-            "port-gellhorn"
-          ]
-        },
-        {
-          "kind": "model",
-          "ms": 1298,
-          "content": "Port Gellhorn is a faded port town located on the western coast of Leonida.",
+          "ms": 2486,
+          "content": "You can go out at night to places like Effluvia, a rooftop bar in Vice City, or NINE1NINE, a downtown nightclub also located in Vice City.",
           "toolCalls": []
         }
       ]
@@ -235,16 +301,16 @@
   },
   {
     "question": "Is there a theme park?",
-    "recordedAt": "2026-11-19T19:18:05.361Z",
+    "recordedAt": "2026-11-19T19:41:00.839Z",
     "result": {
       "mode": "live-local",
       "model": "qwen3:8b",
-      "answer": "There is no theme park listed in the available locations.",
+      "answer": "There are no known theme parks in Leonida.",
       "locations": [],
       "trace": [
         {
           "kind": "model",
-          "ms": 1137,
+          "ms": 1143,
           "content": "",
           "toolCalls": [
             {
@@ -257,7 +323,7 @@
         },
         {
           "kind": "tool",
-          "ms": 5,
+          "ms": 4,
           "name": "searchLocations",
           "arguments": {
             "q": "theme park"
@@ -266,8 +332,1190 @@
         },
         {
           "kind": "model",
-          "ms": 833,
-          "content": "There is no theme park listed in the available locations.",
+          "ms": 793,
+          "content": "There are no known theme parks in Leonida.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "What is in Mount Kalaga National Park?",
+    "recordedAt": "2026-11-19T19:41:03.598Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Mount Kalaga National Park is a forested parkland located in the north of the state.",
+      "locations": [
+        {
+          "slug": "mount-kalaga-national-park",
+          "name": "Mount Kalaga National Park",
+          "category": "Region",
+          "region": null,
+          "x": 0.42,
+          "y": 0.15,
+          "summary": "Forested parkland in the north of the state.",
+          "verification": "official",
+          "sourceUrl": "https://www.rockstargames.com/VI"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1272,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "searchLocations",
+              "arguments": {
+                "q": "Mount Kalaga National Park"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 5,
+          "name": "searchLocations",
+          "arguments": {
+            "q": "Mount Kalaga National Park"
+          },
+          "slugs": [
+            "mount-kalaga-national-park"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 1472,
+          "content": "Mount Kalaga National Park is a forested parkland located in the north of the state.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "What else is in Vice City?",
+    "recordedAt": "2026-11-19T19:41:09.125Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Vice City includes districts like Bayside, Downtown, and Ocean Beach, as well as landmarks such as Ocean Drive. It also has hotels like the Dominion Hotel and Ocean View Hotel, and nightlife spots like Effluvia and NINE1NINE.",
+      "locations": [
+        {
+          "slug": "bayside",
+          "name": "Bayside",
+          "category": "District",
+          "region": "Vice City",
+          "x": 0.595,
+          "y": 0.625,
+          "summary": "Waterfront area where the two leads spend downtime in official footage.",
+          "verification": "community",
+          "sourceUrl": "https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/"
+        },
+        {
+          "slug": "dominion-hotel",
+          "name": "Dominion Hotel",
+          "category": "Hotel",
+          "region": "Vice City",
+          "x": 0.668,
+          "y": 0.64,
+          "summary": "Beachfront hotel seen in the second trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "downtown",
+          "name": "Downtown",
+          "category": "District",
+          "region": "Vice City",
+          "x": 0.565,
+          "y": 0.655,
+          "summary": "District named on a highway sign in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/"
+        },
+        {
+          "slug": "effluvia",
+          "name": "Effluvia",
+          "category": "Nightlife",
+          "region": "Vice City",
+          "x": 0.6,
+          "y": 0.7,
+          "summary": "Rooftop bar shown in Rockstar's extended look at the game.",
+          "verification": "community",
+          "sourceUrl": "https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/"
+        },
+        {
+          "slug": "hotel-dixon",
+          "name": "Hotel Dixon",
+          "category": "Hotel",
+          "region": "Vice City",
+          "x": 0.655,
+          "y": 0.69,
+          "summary": "Hotel with neon lettering on the beach skyline in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/"
+        },
+        {
+          "slug": "little-cuba",
+          "name": "Little Cuba",
+          "category": "District",
+          "region": "Vice City",
+          "x": 0.535,
+          "y": 0.7,
+          "summary": "Neighbourhood reported to be known for its Cuban bakeries.",
+          "verification": "community",
+          "sourceUrl": "https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/"
+        },
+        {
+          "slug": "nine1nine",
+          "name": "NINE1NINE",
+          "category": "Nightlife",
+          "region": "Vice City",
+          "x": 0.555,
+          "y": 0.635,
+          "summary": "Downtown nightclub seen in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "ocean-beach",
+          "name": "Ocean Beach",
+          "category": "District",
+          "region": "Vice City",
+          "x": 0.628,
+          "y": 0.71,
+          "summary": "Reported as Vice City's signature beach district of pastel hotels.",
+          "verification": "community",
+          "sourceUrl": "https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/"
+        },
+        {
+          "slug": "ocean-drive",
+          "name": "Ocean Drive",
+          "category": "Landmark",
+          "region": "Vice City",
+          "x": 0.64,
+          "y": 0.625,
+          "summary": "Beachfront street seen in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "ocean-view-hotel",
+          "name": "Ocean View Hotel",
+          "category": "Hotel",
+          "region": "Vice City",
+          "x": 0.655,
+          "y": 0.595,
+          "summary": "Beachfront hotel seen in the second trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1174,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "searchLocations",
+              "arguments": {
+                "q": "Vice City"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 7,
+          "name": "searchLocations",
+          "arguments": {
+            "q": "Vice City"
+          },
+          "slugs": [
+            "bayside",
+            "dominion-hotel",
+            "downtown",
+            "effluvia",
+            "hotel-dixon",
+            "little-cuba",
+            "nine1nine",
+            "ocean-beach",
+            "ocean-drive",
+            "ocean-view-hotel"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 4336,
+          "content": "Vice City includes districts like Bayside, Downtown, and Ocean Beach, as well as landmarks such as Ocean Drive. It also has hotels like the Dominion Hotel and Ocean View Hotel, and nightlife spots like Effluvia and NINE1NINE.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "What is in Vice City?",
+    "recordedAt": "2026-11-19T19:41:14.388Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Vice City contains several notable locations, including Bayside, the Dominion Hotel, Downtown, Effluvia, Hotel Dixon, Little Cuba, NINE1NINE, Ocean Beach, Ocean Drive, and the Ocean View Hotel.",
+      "locations": [
+        {
+          "slug": "bayside",
+          "name": "Bayside",
+          "category": "District",
+          "region": "Vice City",
+          "x": 0.595,
+          "y": 0.625,
+          "summary": "Waterfront area where the two leads spend downtime in official footage.",
+          "verification": "community",
+          "sourceUrl": "https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/"
+        },
+        {
+          "slug": "dominion-hotel",
+          "name": "Dominion Hotel",
+          "category": "Hotel",
+          "region": "Vice City",
+          "x": 0.668,
+          "y": 0.64,
+          "summary": "Beachfront hotel seen in the second trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "downtown",
+          "name": "Downtown",
+          "category": "District",
+          "region": "Vice City",
+          "x": 0.565,
+          "y": 0.655,
+          "summary": "District named on a highway sign in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/"
+        },
+        {
+          "slug": "effluvia",
+          "name": "Effluvia",
+          "category": "Nightlife",
+          "region": "Vice City",
+          "x": 0.6,
+          "y": 0.7,
+          "summary": "Rooftop bar shown in Rockstar's extended look at the game.",
+          "verification": "community",
+          "sourceUrl": "https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/"
+        },
+        {
+          "slug": "hotel-dixon",
+          "name": "Hotel Dixon",
+          "category": "Hotel",
+          "region": "Vice City",
+          "x": 0.655,
+          "y": 0.69,
+          "summary": "Hotel with neon lettering on the beach skyline in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/"
+        },
+        {
+          "slug": "little-cuba",
+          "name": "Little Cuba",
+          "category": "District",
+          "region": "Vice City",
+          "x": 0.535,
+          "y": 0.7,
+          "summary": "Neighbourhood reported to be known for its Cuban bakeries.",
+          "verification": "community",
+          "sourceUrl": "https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/"
+        },
+        {
+          "slug": "nine1nine",
+          "name": "NINE1NINE",
+          "category": "Nightlife",
+          "region": "Vice City",
+          "x": 0.555,
+          "y": 0.635,
+          "summary": "Downtown nightclub seen in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "ocean-beach",
+          "name": "Ocean Beach",
+          "category": "District",
+          "region": "Vice City",
+          "x": 0.628,
+          "y": 0.71,
+          "summary": "Reported as Vice City's signature beach district of pastel hotels.",
+          "verification": "community",
+          "sourceUrl": "https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/"
+        },
+        {
+          "slug": "ocean-drive",
+          "name": "Ocean Drive",
+          "category": "Landmark",
+          "region": "Vice City",
+          "x": 0.64,
+          "y": 0.625,
+          "summary": "Beachfront street seen in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "ocean-view-hotel",
+          "name": "Ocean View Hotel",
+          "category": "Hotel",
+          "region": "Vice City",
+          "x": 0.655,
+          "y": 0.595,
+          "summary": "Beachfront hotel seen in the second trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1197,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "searchLocations",
+              "arguments": {
+                "q": "Vice City"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 5,
+          "name": "searchLocations",
+          "arguments": {
+            "q": "Vice City"
+          },
+          "slugs": [
+            "bayside",
+            "dominion-hotel",
+            "downtown",
+            "effluvia",
+            "hotel-dixon",
+            "little-cuba",
+            "nine1nine",
+            "ocean-beach",
+            "ocean-drive",
+            "ocean-view-hotel"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 4052,
+          "content": "Vice City contains several notable locations, including Bayside, the Dominion Hotel, Downtown, Effluvia, Hotel Dixon, Little Cuba, NINE1NINE, Ocean Beach, Ocean Drive, and the Ocean View Hotel.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "What is in Leonida Keys?",
+    "recordedAt": "2026-11-19T19:41:18.464Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Leonida Keys is a region consisting of a chain of islands at the state's southern tip. Notable locations include Brian's Marina, a marina and hangar, and Key Lento, an island town.",
+      "locations": [
+        {
+          "slug": "brians-marina",
+          "name": "Brian's Marina",
+          "category": "Transport",
+          "region": "Leonida Keys",
+          "x": 0.235,
+          "y": 0.915,
+          "summary": "Marina and hangar seen in the second trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "key-lento",
+          "name": "Key Lento",
+          "category": "District",
+          "region": "Leonida Keys",
+          "x": 0.215,
+          "y": 0.95,
+          "summary": "Island town where Jason's scenes in the second trailer take place.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "leonida-keys",
+          "name": "Leonida Keys",
+          "category": "Region",
+          "region": null,
+          "x": 0.27,
+          "y": 0.94,
+          "summary": "A chain of islands at the state's southern tip.",
+          "verification": "official",
+          "sourceUrl": "https://www.rockstargames.com/VI"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1250,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "searchLocations",
+              "arguments": {
+                "q": "Leonida Keys"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 6,
+          "name": "searchLocations",
+          "arguments": {
+            "q": "Leonida Keys"
+          },
+          "slugs": [
+            "brians-marina",
+            "key-lento",
+            "leonida-keys"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 2812,
+          "content": "Leonida Keys is a region consisting of a chain of islands at the state's southern tip. Notable locations include Brian's Marina, a marina and hangar, and Key Lento, an island town.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "Who is connected to Leonida Keys?",
+    "recordedAt": "2026-11-19T19:41:21.198Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Jason Duval is connected to Leonida Keys, as he lives there according to guides covering the second trailer.",
+      "locations": [
+        {
+          "slug": "leonida-keys",
+          "name": "Leonida Keys",
+          "category": "Region",
+          "region": null,
+          "x": 0.27,
+          "y": 0.94,
+          "summary": "A chain of islands at the state's southern tip.",
+          "verification": "official",
+          "sourceUrl": "https://www.rockstargames.com/VI"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1181,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "findConnections",
+              "arguments": {
+                "name": "Leonida Keys"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 34,
+          "name": "findConnections",
+          "arguments": {
+            "name": "Leonida Keys"
+          },
+          "slugs": [
+            "leonida-keys"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 1508,
+          "content": "Jason Duval is connected to Leonida Keys, as he lives there according to guides covering the second trailer.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "What is in Grassrivers?",
+    "recordedAt": "2026-11-19T19:41:23.785Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Grassrivers is a sprawling wetland wilderness located in the south of Leonida.",
+      "locations": [
+        {
+          "slug": "grassrivers",
+          "name": "Grassrivers",
+          "category": "Region",
+          "region": null,
+          "x": 0.4,
+          "y": 0.8,
+          "summary": "Sprawling wetland wilderness in the south.",
+          "verification": "official",
+          "sourceUrl": "https://www.rockstargames.com/VI"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1244,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "searchLocations",
+              "arguments": {
+                "q": "Grassrivers"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 9,
+          "name": "searchLocations",
+          "arguments": {
+            "q": "Grassrivers"
+          },
+          "slugs": [
+            "grassrivers"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 1322,
+          "content": "Grassrivers is a sprawling wetland wilderness located in the south of Leonida.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "What is in Port Gellhorn?",
+    "recordedAt": "2026-11-19T19:41:27.646Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Port Gellhorn is a faded port town on the western coast. It contains the Pawn & Gun shop, Starlet Motel, and Uncle Jack's Liquor.",
+      "locations": [
+        {
+          "slug": "pawn-and-gun",
+          "name": "Pawn & Gun",
+          "category": "Shop",
+          "region": "Port Gellhorn",
+          "x": 0.08,
+          "y": 0.33,
+          "summary": "Gun shop next to the store robbery in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "port-gellhorn",
+          "name": "Port Gellhorn",
+          "category": "Region",
+          "region": null,
+          "x": 0.1,
+          "y": 0.3,
+          "summary": "A faded port town on the western coast.",
+          "verification": "official",
+          "sourceUrl": "https://www.rockstargames.com/VI"
+        },
+        {
+          "slug": "starlet-motel",
+          "name": "Starlet Motel",
+          "category": "Hotel",
+          "region": "Port Gellhorn",
+          "x": 0.125,
+          "y": 0.265,
+          "summary": "Motel shown in an official Rockstar screenshot.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "uncle-jacks-liquor",
+          "name": "Uncle Jack's Liquor",
+          "category": "Shop",
+          "region": "Port Gellhorn",
+          "x": 0.095,
+          "y": 0.345,
+          "summary": "Liquor store robbed in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1228,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "searchLocations",
+              "arguments": {
+                "q": "Port Gellhorn"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 9,
+          "name": "searchLocations",
+          "arguments": {
+            "q": "Port Gellhorn"
+          },
+          "slugs": [
+            "pawn-and-gun",
+            "port-gellhorn",
+            "starlet-motel",
+            "uncle-jacks-liquor"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 2617,
+          "content": "Port Gellhorn is a faded port town on the western coast. It contains the Pawn & Gun shop, Starlet Motel, and Uncle Jack's Liquor.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "What else is in Leonida Keys?",
+    "recordedAt": "2026-11-19T19:41:31.637Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Leonida Keys is a region consisting of a chain of islands at the state's southern tip. Notable locations include Brian's Marina, a marina and hangar, and Key Lento, an island town.",
+      "locations": [
+        {
+          "slug": "brians-marina",
+          "name": "Brian's Marina",
+          "category": "Transport",
+          "region": "Leonida Keys",
+          "x": 0.235,
+          "y": 0.915,
+          "summary": "Marina and hangar seen in the second trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "key-lento",
+          "name": "Key Lento",
+          "category": "District",
+          "region": "Leonida Keys",
+          "x": 0.215,
+          "y": 0.95,
+          "summary": "Island town where Jason's scenes in the second trailer take place.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "leonida-keys",
+          "name": "Leonida Keys",
+          "category": "Region",
+          "region": null,
+          "x": 0.27,
+          "y": 0.94,
+          "summary": "A chain of islands at the state's southern tip.",
+          "verification": "official",
+          "sourceUrl": "https://www.rockstargames.com/VI"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1172,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "searchLocations",
+              "arguments": {
+                "q": "Leonida Keys"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 6,
+          "name": "searchLocations",
+          "arguments": {
+            "q": "Leonida Keys"
+          },
+          "slugs": [
+            "brians-marina",
+            "key-lento",
+            "leonida-keys"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 2803,
+          "content": "Leonida Keys is a region consisting of a chain of islands at the state's southern tip. Notable locations include Brian's Marina, a marina and hangar, and Key Lento, an island town.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "Who is connected to Brian's Marina?",
+    "recordedAt": "2026-11-19T19:41:33.962Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Jason Duval is connected to Brian's Marina.",
+      "locations": [
+        {
+          "slug": "brians-marina",
+          "name": "Brian's Marina",
+          "category": "Transport",
+          "region": "Leonida Keys",
+          "x": 0.235,
+          "y": 0.915,
+          "summary": "Marina and hangar seen in the second trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1313,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "findConnections",
+              "arguments": {
+                "name": "Brian's Marina"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 31,
+          "name": "findConnections",
+          "arguments": {
+            "name": "Brian's Marina"
+          },
+          "slugs": [
+            "brians-marina"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 969,
+          "content": "Jason Duval is connected to Brian's Marina.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "What else is in Port Gellhorn?",
+    "recordedAt": "2026-11-19T19:41:37.591Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Port Gellhorn has a gun shop called Pawn & Gun, a motel named Starlet Motel, and a liquor store called Uncle Jack's Liquor.",
+      "locations": [
+        {
+          "slug": "pawn-and-gun",
+          "name": "Pawn & Gun",
+          "category": "Shop",
+          "region": "Port Gellhorn",
+          "x": 0.08,
+          "y": 0.33,
+          "summary": "Gun shop next to the store robbery in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "port-gellhorn",
+          "name": "Port Gellhorn",
+          "category": "Region",
+          "region": null,
+          "x": 0.1,
+          "y": 0.3,
+          "summary": "A faded port town on the western coast.",
+          "verification": "official",
+          "sourceUrl": "https://www.rockstargames.com/VI"
+        },
+        {
+          "slug": "starlet-motel",
+          "name": "Starlet Motel",
+          "category": "Hotel",
+          "region": "Port Gellhorn",
+          "x": 0.125,
+          "y": 0.265,
+          "summary": "Motel shown in an official Rockstar screenshot.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "uncle-jacks-liquor",
+          "name": "Uncle Jack's Liquor",
+          "category": "Shop",
+          "region": "Port Gellhorn",
+          "x": 0.095,
+          "y": 0.345,
+          "summary": "Liquor store robbed in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1215,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "searchLocations",
+              "arguments": {
+                "q": "Port Gellhorn"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 8,
+          "name": "searchLocations",
+          "arguments": {
+            "q": "Port Gellhorn"
+          },
+          "slugs": [
+            "pawn-and-gun",
+            "port-gellhorn",
+            "starlet-motel",
+            "uncle-jacks-liquor"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 2396,
+          "content": "Port Gellhorn has a gun shop called Pawn & Gun, a motel named Starlet Motel, and a liquor store called Uncle Jack's Liquor.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "Who is connected to Uncle Jack's Liquor?",
+    "recordedAt": "2026-11-19T19:41:41.037Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Lucia Caminos is connected to Uncle Jack's Liquor, located in Port Gellhorn, where she robs the store with her partner in the first trailer.",
+      "locations": [
+        {
+          "slug": "uncle-jacks-liquor",
+          "name": "Uncle Jack's Liquor",
+          "category": "Shop",
+          "region": "Port Gellhorn",
+          "x": 0.095,
+          "y": 0.345,
+          "summary": "Liquor store robbed in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1323,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "findConnections",
+              "arguments": {
+                "name": "Uncle Jack's Liquor"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 10,
+          "name": "findConnections",
+          "arguments": {
+            "name": "Uncle Jack's Liquor"
+          },
+          "slugs": [
+            "uncle-jacks-liquor"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 2098,
+          "content": "Lucia Caminos is connected to Uncle Jack's Liquor, located in Port Gellhorn, where she robs the store with her partner in the first trailer.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "What else is in Ambrosia?",
+    "recordedAt": "2026-11-19T19:41:44.422Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Ambrosia is a central region in Leonida, and it contains the Sugar refinery, a landmark associated with a biker gang in an official Rockstar screenshot.",
+      "locations": [
+        {
+          "slug": "ambrosia",
+          "name": "Ambrosia",
+          "category": "Region",
+          "region": null,
+          "x": 0.31,
+          "y": 0.52,
+          "summary": "A region at the centre of the state.",
+          "verification": "official",
+          "sourceUrl": "https://www.rockstargames.com/VI"
+        },
+        {
+          "slug": "sugar-refinery",
+          "name": "Sugar refinery",
+          "category": "Landmark",
+          "region": "Ambrosia",
+          "x": 0.345,
+          "y": 0.495,
+          "summary": "Refinery shown with a biker gang in an official Rockstar screenshot.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1147,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "searchLocations",
+              "arguments": {
+                "q": "Ambrosia"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 6,
+          "name": "searchLocations",
+          "arguments": {
+            "q": "Ambrosia"
+          },
+          "slugs": [
+            "ambrosia",
+            "sugar-refinery"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 2223,
+          "content": "Ambrosia is a central region in Leonida, and it contains the Sugar refinery, a landmark associated with a biker gang in an official Rockstar screenshot.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "Who is connected to Leonida Penitentiary?",
+    "recordedAt": "2026-11-19T19:41:47.551Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Lucia Caminos is connected to Leonida Penitentiary, as her story opens in a cell there according to the first trailer.",
+      "locations": [
+        {
+          "slug": "leonida-penitentiary",
+          "name": "Leonida Penitentiary",
+          "category": "Landmark",
+          "region": null,
+          "x": 0.46,
+          "y": 0.745,
+          "summary": "Prison where Lucia's story opens in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1313,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "findConnections",
+              "arguments": {
+                "name": "Leonida Penitentiary"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 7,
+          "name": "findConnections",
+          "arguments": {
+            "name": "Leonida Penitentiary"
+          },
+          "slugs": [
+            "leonida-penitentiary"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 1801,
+          "content": "Lucia Caminos is connected to Leonida Penitentiary, as her story opens in a cell there according to the first trailer.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "Who is connected to Key Lento?",
+    "recordedAt": "2026-11-19T19:41:49.767Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Jason Duval is connected to Key Lento.",
+      "locations": [
+        {
+          "slug": "key-lento",
+          "name": "Key Lento",
+          "category": "District",
+          "region": "Leonida Keys",
+          "x": 0.215,
+          "y": 0.95,
+          "summary": "Island town where Jason's scenes in the second trailer take place.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1258,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "findConnections",
+              "arguments": {
+                "name": "Key Lento"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 14,
+          "name": "findConnections",
+          "arguments": {
+            "name": "Key Lento"
+          },
+          "slugs": [
+            "key-lento"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 936,
+          "content": "Jason Duval is connected to Key Lento.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "Find locations connected to Jason",
+    "recordedAt": "2026-11-19T19:41:52.569Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Jason Duval is connected to Leonida Keys, Key Lento, and Brian's Marina.",
+      "locations": [
+        {
+          "slug": "leonida-keys",
+          "name": "Leonida Keys",
+          "category": "Region",
+          "region": null,
+          "x": 0.27,
+          "y": 0.94,
+          "summary": "A chain of islands at the state's southern tip.",
+          "verification": "official",
+          "sourceUrl": "https://www.rockstargames.com/VI"
+        },
+        {
+          "slug": "key-lento",
+          "name": "Key Lento",
+          "category": "District",
+          "region": "Leonida Keys",
+          "x": 0.215,
+          "y": 0.95,
+          "summary": "Island town where Jason's scenes in the second trailer take place.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "brians-marina",
+          "name": "Brian's Marina",
+          "category": "Transport",
+          "region": "Leonida Keys",
+          "x": 0.235,
+          "y": 0.915,
+          "summary": "Marina and hangar seen in the second trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1131,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "findConnections",
+              "arguments": {
+                "name": "Jason"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 8,
+          "name": "findConnections",
+          "arguments": {
+            "name": "Jason"
+          },
+          "slugs": [
+            "leonida-keys",
+            "key-lento",
+            "brians-marina"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 1655,
+          "content": "Jason Duval is connected to Leonida Keys, Key Lento, and Brian's Marina.",
           "toolCalls": []
         }
       ]
