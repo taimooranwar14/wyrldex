@@ -67,6 +67,21 @@ export function WorldMap({ regions, locations, selectedSlug, onSelect, fitTo = n
     return () => observer.disconnect();
   }, []);
 
+  // In full screen, make everything behind the map inert, so keyboard focus cannot wander onto hidden buttons.
+  useEffect(() => {
+    if (!fullScreen) return;
+    const hidden: Element[] = [];
+    for (let el: Element | null = frame.current; el && el !== document.body; el = el.parentElement) {
+      for (const sibling of el.parentElement?.children ?? []) {
+        if (sibling !== el && !sibling.hasAttribute("inert")) {
+          sibling.setAttribute("inert", "");
+          hidden.push(sibling);
+        }
+      }
+    }
+    return () => hidden.forEach((el) => el.removeAttribute("inert"));
+  }, [fullScreen]);
+
   // Escape leaves full screen first, then closes the selection (like closing a callout).
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

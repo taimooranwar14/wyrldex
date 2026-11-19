@@ -14,6 +14,15 @@ const profile = mkdtempSync(join(tmpdir(), "wyrldex-smoke-")); // fresh profile:
 const port = 9300 + Math.floor(Math.random() * 500);
 const chrome = spawn(chromePath, [`--headless=new`, `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, "about:blank"]);
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+// Runs on every exit, including a crash midway, so no stray headless Chrome or temp folder is left behind.
+process.on("exit", () => {
+  chrome.kill();
+  try {
+    rmSync(profile, { recursive: true, force: true });
+  } catch {
+    // Chrome may still hold files for a moment; the OS temp folder is cleaned eventually.
+  }
+});
 
 let wsUrl;
 for (let i = 0; i < 40 && !wsUrl; i++) {
@@ -127,13 +136,15 @@ await check("zoom controls zoom in, and home shows the whole map", async () => {
   await click('[aria-label="Show the whole map"]');
   return zoomedIn && waitFor(async () => (await zoom()) === 1);
 });
-await check("full-screen map covers the window, Esc exits", async () => {
+await check("full-screen map covers the window, locks focus to the map, Esc exits", async () => {
   await click('[aria-label="Full screen map"]');
   const covers = await waitFor(() =>
     js(`(() => { const r = document.querySelector('[aria-label="Exit full screen"]').closest(".fixed").getBoundingClientRect(); return r.width === innerWidth && r.height === innerHeight; })()`),
   );
+  const behindIsInert = await js(`document.querySelector("aside").closest("[inert]") !== null`);
   await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
-  return covers && waitFor(() => js(`!!document.querySelector('[aria-label="Full screen map"]')`));
+  const restored = await waitFor(() => js(`!!document.querySelector('[aria-label="Full screen map"]') && !document.querySelector("[inert]")`));
+  return covers && behindIsInert && restored;
 });
 
 await send("Page.navigate", { url: `${base}/about` });

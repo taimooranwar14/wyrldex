@@ -142,3 +142,12 @@
 **Learned / gotchas:**
 - The old ⤢ "reset view" icon looked like a full-screen button. Icons must match what they do.
 - All four first smoke failures were bugs in the test: typing before React hydrated (wait for the `__reactFiber` key), `innerText` applying CSS `uppercase` (use `textContent`), an exact-zoom assumption, and deleting Chrome's profile before it exited.
+
+## 2026-11-19 — Launch readiness and demo video
+
+**Built:** MIT LICENSE; README architecture diagram (Mermaid), "Security and known limitations" and license sections; full-screen map makes the rest of the page `inert` so keyboard focus stays on the map; `scripts/record-demo.mjs`, which records the feature tour from the real app in live mode (headless Chrome screencast + injected cursor/captions/title cards → ffmpeg, 1920×1080).
+
+**Learned / gotchas:**
+- Chrome's screencast only sends frames when pixels change; each frame must last until the next one, and the last one until recording stops, or still moments vanish.
+- Recording on a loaded machine (load average ~8) stretched a 60 s tour to 100 s; record with heavy Docker workloads paused.
+- `process.on("exit")` is the simplest way to guarantee child processes and temp folders are cleaned up when a top-level-await script crashes.

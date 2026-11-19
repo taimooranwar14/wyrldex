@@ -8,7 +8,7 @@ type SearchState =
   | { status: "loading" | "error"; results: null };
 
 // Searches GET /api/locations as the user types.
-// shortcut: verified by hand in headless Chrome only; add a Playwright smoke test before launch.
+// Covered end to end by scripts/smoke.mjs (search, then clearing it).
 export function useLocationSearch(query: string): SearchState {
   const q = query.trim();
   // Each response is stored with the query it answers, so it can never be shown for a different query.
