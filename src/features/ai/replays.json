@@ -1,0 +1,159 @@
+[
+  {
+    "question": "Which cities are in Leonida?",
+    "recordedAt": "2026-11-19T18:53:18.463Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Port Gellhorn and Vice City are the cities in Leonida.",
+      "locations": [
+        {
+          "slug": "port-gellhorn",
+          "name": "Port Gellhorn",
+          "category": "City",
+          "x": 0.1,
+          "y": 0.3,
+          "summary": "A faded port town on the western coast.",
+          "verification": "official",
+          "sourceUrl": "https://www.rockstargames.com/VI"
+        },
+        {
+          "slug": "vice-city",
+          "name": "Vice City",
+          "category": "City",
+          "x": 0.58,
+          "y": 0.7,
+          "summary": "Leonida's signature city, on the east coast.",
+          "verification": "official",
+          "sourceUrl": "https://www.rockstargames.com/VI"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1923,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "searchLocations",
+              "arguments": {
+                "q": "city"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 23,
+          "name": "searchLocations",
+          "arguments": {
+            "q": "city"
+          },
+          "slugs": [
+            "port-gellhorn",
+            "vice-city"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 1136,
+          "content": "Port Gellhorn and Vice City are the cities in Leonida.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "What is on the west coast?",
+    "recordedAt": "2026-11-19T18:53:20.887Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "Port Gellhorn is a faded port town located on the western coast of Leonida.",
+      "locations": [
+        {
+          "slug": "port-gellhorn",
+          "name": "Port Gellhorn",
+          "category": "City",
+          "x": 0.1,
+          "y": 0.3,
+          "summary": "A faded port town on the western coast.",
+          "verification": "official",
+          "sourceUrl": "https://www.rockstargames.com/VI"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1111,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "searchLocations",
+              "arguments": {
+                "q": "west coast"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 3,
+          "name": "searchLocations",
+          "arguments": {
+            "q": "west coast"
+          },
+          "slugs": [
+            "port-gellhorn"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 1296,
+          "content": "Port Gellhorn is a faded port town located on the western coast of Leonida.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "Is there a theme park?",
+    "recordedAt": "2026-11-19T18:53:22.746Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "No theme park was found in Leonida.",
+      "locations": [],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1111,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "searchLocations",
+              "arguments": {
+                "q": "theme park"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 5,
+          "name": "searchLocations",
+          "arguments": {
+            "q": "theme park"
+          },
+          "slugs": []
+        },
+        {
+          "kind": "model",
+          "ms": 737,
+          "content": "No theme park was found in Leonida.",
+          "toolCalls": []
+        }
+      ]
+    }
+  }
+]

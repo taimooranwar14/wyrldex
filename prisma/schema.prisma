@@ -37,6 +37,8 @@ model Location {
   y            Float
   summary      String
   verification Verification
+  /// Where the facts come from. Required for official/community records; summaries are written in our own words.
+  sourceUrl    String?
 
   @@unique([worldId, slug])
   @@index([worldId, category])

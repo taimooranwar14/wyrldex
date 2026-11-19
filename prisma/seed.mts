@@ -9,21 +9,24 @@ const db = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.
 
 const world = {
   slug: DEFAULT_WORLD_SLUG,
-  name: "Sample World",
-  description: "Fictional demo world for a GTA VI-inspired explorer. Not game data.",
+  name: "Leonida",
+  description: "The state where Grand Theft Auto VI is set. Region names from Rockstar's official site; map positions are illustrative.",
 };
 
-// Fictional placeholder records, invented for layout work. Not GTA VI facts.
+// Region names are official (Rockstar's GTA VI site). Summaries are our own words, kept to what Rockstar has shown.
+// x/y are positions on Wyrldex's original stylized map, not in-game coordinates.
+const sourceUrl = "https://www.rockstargames.com/VI";
 const locations = [
-  { slug: "skyline-strip", name: "Skyline Strip", category: "District", x: 0.56, y: 0.43, summary: "A dense nightlife district by the bay." },
-  { slug: "harbor-lights-pier", name: "Harbor Lights Pier", category: "Landmark", x: 0.55, y: 0.586, summary: "A neon-lit boardwalk on the inner bay." },
-  { slug: "old-port-warehouses", name: "Old Port Warehouses", category: "District", x: 0.43, y: 0.257, summary: "A converted dockside quarter in the north." },
-  { slug: "lighthouse-point", name: "Lighthouse Point", category: "Landmark", x: 0.83, y: 0.364, summary: "A lone beacon on the eastern island." },
-  { slug: "mangrove-overlook", name: "Mangrove Overlook", category: "Nature", x: 0.32, y: 0.63, summary: "A wetland viewpoint beside the inland lagoon." },
-  { slug: "cypress-trail", name: "Cypress Trail", category: "Nature", x: 0.15, y: 0.43, summary: "A raised boardwalk through western swampland." },
-  { slug: "sunset-boardwalk", name: "Sunset Boardwalk", category: "Beach", x: 0.5, y: 0.83, summary: "A long beach promenade on the southern coast." },
-  { slug: "coral-keys", name: "Coral Keys", category: "Beach", x: 0.27, y: 0.936, summary: "A chain of tiny islands trailing off the southern tip." },
-].map((loc) => ({ ...loc, summary: `${loc.summary} Placeholder content.`, verification: "sample" as const }));
+  { slug: "vice-city", name: "Vice City", category: "City", x: 0.58, y: 0.7, summary: "Leonida's signature city, on the east coast." },
+  { slug: "leonida-keys", name: "Leonida Keys", category: "Islands", x: 0.27, y: 0.94, summary: "A chain of islands at the state's southern tip." },
+  { slug: "grassrivers", name: "Grassrivers", category: "Nature", x: 0.4, y: 0.8, summary: "Sprawling wetland wilderness in the south." },
+  { slug: "port-gellhorn", name: "Port Gellhorn", category: "City", x: 0.1, y: 0.3, summary: "A faded port town on the western coast." },
+  { slug: "ambrosia", name: "Ambrosia", category: "Inland", x: 0.31, y: 0.52, summary: "A region at the centre of the state." },
+  { slug: "mount-kalaga-national-park", name: "Mount Kalaga National Park", category: "Nature", x: 0.42, y: 0.15, summary: "Forested parkland in the north of the state." },
+].map((loc) => ({ ...loc, verification: "official" as const, sourceUrl }));
+
+// The fictional placeholder world from M1–M6 is retired; its rows cascade-delete with it.
+await db.world.deleteMany({ where: { slug: "sample-world" } });
 
 const { id: worldId } = await db.world.upsert({ where: { slug: world.slug }, update: world, create: world });
 

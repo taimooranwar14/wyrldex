@@ -11,7 +11,7 @@ export function TopBar() {
       </div>
 
       <span className="ml-auto rounded-full border border-highlight/50 px-2.5 py-0.5 text-xs text-highlight">
-        Sample data
+        Unofficial fan project
       </span>
     </header>
   );

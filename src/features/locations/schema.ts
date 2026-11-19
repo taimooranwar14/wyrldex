@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const DEFAULT_WORLD_SLUG = "sample-world";
+export const DEFAULT_WORLD_SLUG = "leonida";
 
 // Query string for GET /api/locations. Everything from a URL is an untrusted string until it passes here.
 export const locationQuerySchema = z.object({

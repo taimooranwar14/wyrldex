@@ -75,3 +75,15 @@
 - A loop cap alone still ends without an answer; sending the last call without tools forces one.
 - The first call after idle took ~13 s, 10 s of which was loading the model; warm calls take ~1–2 s per model step.
 - macOS clears `$TMPDIR`: the session handoff file there was gone. Keep handoffs in the repo or memory.
+
+## 2026-11-19 — Real data + M7: Ask AI panel, Execution Inspector, recorded replay
+
+**Built:** fictional sample world replaced by Leonida's six officially named regions (`verification: official`, new `sourceUrl` column). Ask AI panel with preset questions (plus free text in live mode), Execution Inspector showing each model/tool step with args, validation result and timing, map pins highlighted from the AI's results. Public mode replays traces recorded from the real model.
+
+**Verified:** GTA VI released 2026-11-19 (PS5, Xbox Series X|S). Rockstar has named six regions: Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia, Mount Kalaga National Park. Rockstar publishes no fan-site content licence; we use facts and names only, our own words and our own map art, with source links and the non-affiliation disclaimer.
+
+**Learned / gotchas:**
+- Recording real traces is a test: it surfaced a search bug and a hallucination that unit tests with mocks could not.
+- A small model embellishes even with "answer only from results"; naming what not to add ("history, atmosphere") fixed it.
+- Next 16 allows one `next dev` per project folder; test the public mode with `next build && next start` on another port.
+- Port 3000 is used by another local project; this app runs on 3123 (dev) / 3124 (prod check).

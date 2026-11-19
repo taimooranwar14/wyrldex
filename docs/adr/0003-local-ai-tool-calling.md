@@ -19,3 +19,9 @@ The brief requires one real LLM integration at €0, developer-run only, with sc
 - No streaming: the user waits ~2–4 s (warm), ~13 s on the first call while the model loads.
 - `q` is a substring search, so the tool description asks for one short keyword; multi-word phrases match poorly.
 - Tests mock Ollama and the repository, so CI needs neither.
+
+## Addendum (2026-11-19, M7): public replay
+- The page passes `liveAI = AI_MODE === "local"` to the client. Without it, the Ask AI panel only offers preset questions and replays `src/features/ai/replays.json`.
+- Replays are produced by `scripts/record-replays.mts`, which calls the live endpoint. They are never hand-written or edited, and are labelled "Recorded demo · no live inference" with the recording date and model.
+- Replays play at the recorded step timings (each step capped at 2.5 s), so the demo shows real latency.
+- Recording exposed two real problems, both fixed at the source before the final recording: multi-word queries missed ("west coast" vs "western coast", now every word is matched separately), and the model embellished answers (the prompt now forbids details not in the results).

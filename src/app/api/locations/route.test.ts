@@ -14,17 +14,23 @@ describe("GET /api/locations", () => {
   it("returns every seeded location by default", async () => {
     const { status, body } = await get("");
     expect(status).toBe(200);
-    expect(body.locations).toHaveLength(8);
+    expect(body.locations).toHaveLength(6);
   });
 
   it("filters by category", async () => {
-    const { body } = await get("?category=Beach");
-    expect(slugs(body)).toEqual(["coral-keys", "sunset-boardwalk"]);
+    const { body } = await get("?category=City");
+    expect(slugs(body)).toEqual(["port-gellhorn", "vice-city"]);
   });
 
-  it("searches name and summary, ignoring case", async () => {
-    expect(slugs((await get("?q=LIGHTHOUSE")).body)).toEqual(["lighthouse-point"]);
-    expect(slugs((await get("?q=lagoon")).body)).toEqual(["mangrove-overlook"]);
+  it("searches name, summary and category, ignoring case", async () => {
+    expect(slugs((await get("?q=GELLHORN")).body)).toEqual(["port-gellhorn"]);
+    expect(slugs((await get("?q=wetland")).body)).toEqual(["grassrivers"]);
+    expect(slugs((await get("?q=cit")).body)).toEqual(["port-gellhorn", "vice-city"]);
+  });
+
+  it("requires every word to match, in any field", async () => {
+    expect(slugs((await get("?q=west%20coast")).body)).toEqual(["port-gellhorn"]);
+    expect(slugs((await get("?q=theme%20park")).body)).toEqual([]);
   });
 
   it("treats SQL wildcard characters as plain text", async () => {

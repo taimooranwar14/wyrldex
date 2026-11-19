@@ -6,9 +6,11 @@ import { chat, OLLAMA_MODEL, type ChatMessage } from "./ollama";
 // Model calls per question. The last call gets no tools, so it must answer instead of looping.
 const MAX_ROUNDS = 3;
 
-const SYSTEM_PROMPT = `You help people explore a map of sample locations.
-Always call searchLocations before answering. Answer only from its results, in two or three sentences.
-If nothing matches, say so. Never invent locations.`;
+const SYSTEM_PROMPT = `You help people explore a map of Leonida, the state where Grand Theft Auto VI is set.
+Always call searchLocations before answering. Answer in one or two sentences using only the names and summaries in the results.
+Do not add history, atmosphere or any detail the results do not state.
+If a search finds nothing, you may try once more with a different keyword. If still nothing matches, say so.
+Never invent locations.`;
 
 // The whitelist: the only tool the model may request. It is read-only and goes through the same Zod schema as the public API.
 const TOOLS = [
@@ -73,5 +75,7 @@ export async function askLocations(question: string) {
     }
   }
 }
+
+export type AskResult = Awaited<ReturnType<typeof askLocations>>;
 
 const elapsed = (start: number) => Math.round(performance.now() - start);

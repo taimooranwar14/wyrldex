@@ -11,7 +11,8 @@ import { brand } from "@/lib/brand";
 async function ExplorerWithData() {
   await connection(); // Query per request, never at build time, so builds and CI need no database.
   const locations = await listLocations({ world: DEFAULT_WORLD_SLUG, limit: 100 });
-  return <Explorer locations={locations} />;
+  // Live AI only when the developer opts in; everyone else gets the labelled recorded replay.
+  return <Explorer locations={locations} liveAI={process.env.AI_MODE === "local"} />;
 }
 
 export default function Home() {

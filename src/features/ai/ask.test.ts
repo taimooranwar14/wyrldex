@@ -7,7 +7,7 @@ import { chat, type AssistantMessage } from "./ollama";
 vi.mock("./ollama", () => ({ chat: vi.fn(), OLLAMA_MODEL: "test-model" }));
 vi.mock("@/features/locations/repository", () => ({ listLocations: vi.fn() }));
 
-const pier = { slug: "pier", name: "Pier", category: "Landmark", x: 1, y: 2, summary: "A pier", verification: "SAMPLE" };
+const pier = { slug: "pier", name: "Pier", category: "Landmark", x: 1, y: 2, summary: "A pier", verification: "official", sourceUrl: null };
 const toolCall = (name: string, args: unknown): AssistantMessage => ({
   role: "assistant",
   content: "",
@@ -26,7 +26,7 @@ describe("askLocations", () => {
 
     const result = await askLocations("Where is the pier?");
 
-    expect(listLocations).toHaveBeenCalledWith({ world: "sample-world", limit: 10, q: "pier" });
+    expect(listLocations).toHaveBeenCalledWith({ world: "leonida", limit: 10, q: "pier" });
     expect(result).toMatchObject({ mode: "live-local", model: "test-model", answer: "The Pier.", locations: [pier] });
     expect(result.trace.map((step) => step.kind)).toEqual(["model", "tool", "model"]);
     expect(result.trace[1]).toMatchObject({ name: "searchLocations", slugs: ["pier"] });
