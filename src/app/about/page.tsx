@@ -24,9 +24,10 @@ export default function About() {
           <section>
             <h2 className="text-base font-semibold text-foreground">Where the data comes from</h2>
             <p className="mt-2">
-              Region names come from Rockstar Games&apos; official GTA VI site; every location links to its source.
-              Summaries are written in our own words, and the map is original artwork, so positions are illustrative,
-              not in-game coordinates.
+              The six region names come from Rockstar Games&apos; official GTA VI site. Other places were spotted by
+              players in the official trailers and screenshots and are marked as community data until confirmed. Every
+              location links to its source, summaries are written in our own words, and the map is original artwork,
+              so positions are illustrative, not in-game coordinates.
             </p>
             <ul className="mt-3 space-y-1">
               <li><span className="text-highlight">Officially confirmed</span>: named by Rockstar Games.</li>

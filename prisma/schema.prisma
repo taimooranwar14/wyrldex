@@ -32,6 +32,8 @@ model Location {
   slug         String
   name         String
   category     String
+  /// Parent region (e.g. "Vice City") for places inside one of Leonida's regions; null for the regions themselves or when unknown.
+  region       String?
   /// 0–1 position on our original stylized map, NOT real in-game coordinates.
   x            Float
   y            Float

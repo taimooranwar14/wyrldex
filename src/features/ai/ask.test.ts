@@ -7,7 +7,7 @@ import { chat, type AssistantMessage } from "./ollama";
 vi.mock("./ollama", () => ({ chat: vi.fn(), OLLAMA_MODEL: "test-model" }));
 vi.mock("@/features/locations/repository", () => ({ listLocations: vi.fn() }));
 
-const pier = { slug: "pier", name: "Pier", category: "Landmark", x: 1, y: 2, summary: "A pier", verification: "official", sourceUrl: null };
+const pier = { slug: "pier", name: "Pier", category: "Landmark", region: null, x: 1, y: 2, summary: "A pier", verification: "official", sourceUrl: null };
 const toolCall = (name: string, args: unknown): AssistantMessage => ({
   role: "assistant",
   content: "",

@@ -6,7 +6,7 @@
 
 > Independent, unofficial fan project. Not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive. "Wyrldex" is a provisional name.
 
-![Explorer with an AI answer, its execution trace and highlighted pins](docs/screenshots/explorer-ask-ai.png)
+![Explorer zoomed into Vice City after an AI answer, with its execution trace and place details](docs/screenshots/explorer-ask-ai.png)
 
 ## Status
 | Feature | Status |
@@ -21,6 +21,7 @@
 | Local AI tool call (`POST /api/ai/ask`, developer-only) | ✅ Done |
 | Ask AI panel + Execution Inspector + recorded replay | ✅ Done |
 | UI polish: map art, About page, favicon | ✅ Done |
+| Community data (22 places) + neon map v2 (zoom/pan, icon pins, region labels) | ✅ Done |
 | Public hosting | 📋 Not yet (runs locally) |
 
 ## Quickstart
@@ -46,7 +47,10 @@ npm run lint && npm run typecheck && npm test
 Live mode needs [Ollama](https://ollama.com) and `ollama pull qwen3:8b`. To re-record the replays after changing data or prompts, run the app in live mode and `node scripts/record-replays.mts` (`APP_URL=http://localhost:3123` if not on port 3000). Never hand-edit `src/features/ai/replays.json`.
 
 ## Data
-Region names come from [Rockstar's official GTA VI site](https://www.rockstargames.com/VI); summaries are written in our own words. Each location has a `verification` status (`official`, `community`, `sample`) and a source link. Map positions are illustrative, on an original stylized map.
+- **Official (6):** region names from [Rockstar's official GTA VI site](https://www.rockstargames.com/VI).
+- **Community (22):** places seen in the official trailers and screenshots, as described by third-party guides ([ScreenRant](https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/), [gta-6-map.com](https://gta-6-map.com/guides/trailer-locations), [TechNerdiness](https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/)). Marked "Community — unverified" until confirmed. Fan-invented labels and leaks are left out.
+
+Summaries are written in our own words and every record links to its source. Map positions are illustrative, on an original stylized map. No Rockstar logos, screenshots or character art are used.
 
 ## Where code runs
 Next.js decides per file, not per folder. A file with `"use client"` (and everything it imports) also runs in the browser; everything else stays on the server. Files that must never reach the browser start with `import "server-only"`, which fails the build if a client file imports them.

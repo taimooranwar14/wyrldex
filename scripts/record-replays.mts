@@ -3,7 +3,7 @@
 // Never hand-edit the output: public replays must be genuine recordings.
 import { writeFileSync } from "node:fs";
 
-const questions = ["Which cities are in Leonida?", "What is on the west coast?", "Is there a theme park?"];
+const questions = ["Which hotels are in Vice City?", "Where can I go out at night?", "What is on the west coast?", "Is there a theme park?"];
 const replays = [];
 
 for (const question of questions) {

@@ -16,10 +16,13 @@ export function Explorer({ locations, liveAI }: { locations: LocationSummary[]; 
 
   // Derived on every render, never stored: one source of truth, nothing to keep in sync.
   const categories = [...new Set(locations.map((loc) => loc.category))].sort();
+  const regions = locations.filter((loc) => loc.category === "Region");
   const base = aiLocations ?? search.results ?? locations;
   const visible = category ? base.filter((loc) => loc.category === category) : base;
   // After an AI answer, show its first location until the user picks another pin.
-  const selected = visible.find((loc) => loc.slug === selectedSlug) ?? (aiLocations ? (visible[0] ?? null) : null);
+  // Region labels stay on the map under any filter, so they stay selectable too.
+  const selected =
+    [...visible, ...regions].find((loc) => loc.slug === selectedSlug) ?? (aiLocations ? (visible[0] ?? null) : null);
 
   const statusText =
     locations.length === 0
@@ -87,6 +90,7 @@ export function Explorer({ locations, liveAI }: { locations: LocationSummary[]; 
         {/* On desktop this box is a size container, so the map can fit inside it like object-fit: contain. */}
         <div className="flex flex-1 items-center justify-center lg:min-h-0 lg:[container-type:size]">
           <WorldMap
+            regions={regions}
             locations={visible}
             selectedSlug={selected?.slug ?? null}
             onSelect={setSelectedSlug}

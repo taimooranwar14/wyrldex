@@ -97,3 +97,15 @@
 **Learned / gotchas:**
 - Code passed to the DevTools Protocol's `Runtime.evaluate` runs in the page, not Node: build the string in Node first.
 - `app/icon.svg` is a file convention: Next adds the `<link rel="icon">` itself.
+
+## 2026-11-19 — Community data + map v2
+
+**Built:** 22 community places (trailers and official screenshots, via third-party guides) with a `region` column; search covers region and simple plurals. Neon night map: glowing highways, city lights clipped to land, barrier-island beach strip, region labels, teardrop pins with category icons, callout cards, zoom/pan with level of detail (dots below 2×, icon pins above). Violet palette, facts grid in the detail panel, totals in the Execution Inspector. Replays re-recorded.
+
+**Decisions:** the user's concept mockup was the reference for layout and mood only; Rockstar's logo, screenshots and character art stay out. Community items need a source page and a known region; fan-invented district names and leaks are excluded. Website text claiming "Rockstar confirmed" still counts as `community` until we can check it on Rockstar's own site.
+
+**Learned / gotchas:**
+- `Math.sin/cos` can differ slightly across JS engines; generated art rendered on server and client should use plain arithmetic to avoid hydration mismatches.
+- The dev server's cached Prisma client (kept on `globalThis` across hot reloads) does not see new columns: restart `next dev` after `prisma generate`.
+- The React Compiler lint (`react-hooks/refs`) flags handlers built inside array literals during render; write the buttons out instead.
+- Several guide sites block automated fetches (403/405); record which sources were actually read.

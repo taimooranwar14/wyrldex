@@ -15,15 +15,47 @@ const world = {
 
 // Region names are official (Rockstar's GTA VI site). Summaries are our own words, kept to what Rockstar has shown.
 // x/y are positions on Wyrldex's original stylized map, not in-game coordinates.
-const sourceUrl = "https://www.rockstargames.com/VI";
-const locations = [
-  { slug: "vice-city", name: "Vice City", category: "City", x: 0.58, y: 0.7, summary: "Leonida's signature city, on the east coast." },
-  { slug: "leonida-keys", name: "Leonida Keys", category: "Islands", x: 0.27, y: 0.94, summary: "A chain of islands at the state's southern tip." },
-  { slug: "grassrivers", name: "Grassrivers", category: "Nature", x: 0.4, y: 0.8, summary: "Sprawling wetland wilderness in the south." },
-  { slug: "port-gellhorn", name: "Port Gellhorn", category: "City", x: 0.1, y: 0.3, summary: "A faded port town on the western coast." },
-  { slug: "ambrosia", name: "Ambrosia", category: "Inland", x: 0.31, y: 0.52, summary: "A region at the centre of the state." },
-  { slug: "mount-kalaga-national-park", name: "Mount Kalaga National Park", category: "Nature", x: 0.42, y: 0.15, summary: "Forested parkland in the north of the state." },
-].map((loc) => ({ ...loc, verification: "official" as const, sourceUrl }));
+const officialSource = "https://www.rockstargames.com/VI";
+const regions = [
+  { slug: "vice-city", name: "Vice City", x: 0.565, y: 0.575, summary: "Leonida's signature city, on the east coast." },
+  { slug: "leonida-keys", name: "Leonida Keys", x: 0.27, y: 0.94, summary: "A chain of islands at the state's southern tip." },
+  { slug: "grassrivers", name: "Grassrivers", x: 0.4, y: 0.8, summary: "Sprawling wetland wilderness in the south." },
+  { slug: "port-gellhorn", name: "Port Gellhorn", x: 0.1, y: 0.3, summary: "A faded port town on the western coast." },
+  { slug: "ambrosia", name: "Ambrosia", x: 0.31, y: 0.52, summary: "A region at the centre of the state." },
+  { slug: "mount-kalaga-national-park", name: "Mount Kalaga National Park", x: 0.42, y: 0.15, summary: "Forested parkland in the north of the state." },
+].map((loc) => ({ ...loc, category: "Region", region: null, verification: "official" as const, sourceUrl: officialSource }));
+
+// Community-reported places from the trailers and official stills, as described by third-party guides.
+// Not confirmed by Rockstar on its own site, so marked `community`. Fan-invented labels and leaks are left out.
+const screenRant = "https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/";
+const trailerMap = "https://gta-6-map.com/guides/trailer-locations";
+const viceGuide = "https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/";
+const community = [
+  { slug: "vice-beach", name: "Vice Beach", category: "Beach", region: "Vice City", x: 0.645, y: 0.665, summary: "Busy beachfront with high-rise hotels and a boardwalk, a focus of the first trailer.", sourceUrl: screenRant },
+  { slug: "ocean-beach", name: "Ocean Beach", category: "District", region: "Vice City", x: 0.628, y: 0.71, summary: "Reported as Vice City's signature beach district of pastel hotels.", sourceUrl: viceGuide },
+  { slug: "ocean-drive", name: "Ocean Drive", category: "Landmark", region: "Vice City", x: 0.64, y: 0.625, summary: "Beachfront street seen in the first trailer.", sourceUrl: trailerMap },
+  { slug: "ocean-view-hotel", name: "Ocean View Hotel", category: "Hotel", region: "Vice City", x: 0.655, y: 0.595, summary: "Beachfront hotel seen in the second trailer.", sourceUrl: trailerMap },
+  { slug: "dominion-hotel", name: "Dominion Hotel", category: "Hotel", region: "Vice City", x: 0.668, y: 0.64, summary: "Beachfront hotel seen in the second trailer.", sourceUrl: trailerMap },
+  { slug: "hotel-dixon", name: "Hotel Dixon", category: "Hotel", region: "Vice City", x: 0.655, y: 0.69, summary: "Hotel with neon lettering on the beach skyline in the first trailer.", sourceUrl: screenRant },
+  { slug: "downtown", name: "Downtown", category: "District", region: "Vice City", x: 0.565, y: 0.655, summary: "District named on a highway sign in the first trailer.", sourceUrl: screenRant },
+  { slug: "stockyard", name: "Stockyard", category: "District", region: "Vice City", x: 0.53, y: 0.615, summary: "District named on the same highway sign as Downtown.", sourceUrl: screenRant },
+  { slug: "little-cuba", name: "Little Cuba", category: "District", region: "Vice City", x: 0.535, y: 0.7, summary: "Neighbourhood reported to be known for its Cuban bakeries.", sourceUrl: viceGuide },
+  { slug: "bayside", name: "Bayside", category: "District", region: "Vice City", x: 0.595, y: 0.625, summary: "Waterfront area where the two leads spend downtime in official footage.", sourceUrl: viceGuide },
+  { slug: "port-vc", name: "Port VC", category: "Transport", region: "Vice City", x: 0.6, y: 0.745, summary: "Seaport named on a highway sign; boats race through it in the first trailer.", sourceUrl: screenRant },
+  { slug: "vice-city-international-airport", name: "Vice City International Airport", category: "Transport", region: "Vice City", x: 0.495, y: 0.67, summary: "Airport named on road signs in the trailers.", sourceUrl: screenRant },
+  { slug: "sahara-arena", name: "Sahara Arena", category: "Landmark", region: "Vice City", x: 0.58, y: 0.68, summary: "Arena beside a downtown highway scene in the first trailer.", sourceUrl: trailerMap },
+  { slug: "nine1nine", name: "NINE1NINE", category: "Nightlife", region: "Vice City", x: 0.555, y: 0.635, summary: "Downtown nightclub seen in the first trailer.", sourceUrl: trailerMap },
+  { slug: "effluvia", name: "Effluvia", category: "Nightlife", region: "Vice City", x: 0.6, y: 0.7, summary: "Rooftop bar shown in Rockstar's extended look at the game.", sourceUrl: viceGuide },
+  { slug: "tisha-wocka", name: "Tisha-Wocka", category: "Shop", region: "Vice City", x: 0.515, y: 0.65, summary: "Flea market reported to be known for bootleg brands.", sourceUrl: viceGuide },
+  { slug: "key-lento", name: "Key Lento", category: "District", region: "Leonida Keys", x: 0.215, y: 0.95, summary: "Island town where Jason's scenes in the second trailer take place.", sourceUrl: trailerMap },
+  { slug: "brians-marina", name: "Brian's Marina", category: "Transport", region: "Leonida Keys", x: 0.235, y: 0.915, summary: "Marina and hangar seen in the second trailer.", sourceUrl: trailerMap },
+  { slug: "starlet-motel", name: "Starlet Motel", category: "Hotel", region: "Port Gellhorn", x: 0.125, y: 0.265, summary: "Motel shown in an official Rockstar screenshot.", sourceUrl: trailerMap },
+  { slug: "pawn-and-gun", name: "Pawn & Gun", category: "Shop", region: "Port Gellhorn", x: 0.08, y: 0.33, summary: "Gun shop next to the store robbery in the first trailer.", sourceUrl: trailerMap },
+  { slug: "sugar-refinery", name: "Sugar refinery", category: "Landmark", region: "Ambrosia", x: 0.345, y: 0.495, summary: "Refinery shown with a biker gang in an official Rockstar screenshot.", sourceUrl: trailerMap },
+  { slug: "leonida-penitentiary", name: "Leonida Penitentiary", category: "Landmark", region: null, x: 0.46, y: 0.745, summary: "Prison where Lucia's story opens in the first trailer.", sourceUrl: trailerMap },
+].map((loc) => ({ ...loc, verification: "community" as const }));
+
+const locations = [...regions, ...community];
 
 // The fictional placeholder world from M1–M6 is retired; its rows cascade-delete with it.
 await db.world.deleteMany({ where: { slug: "sample-world" } });

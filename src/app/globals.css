@@ -2,13 +2,14 @@
 
 /* Design tokens: Tailwind v4 turns each --color-* into utilities (bg-surface, text-accent, ...). */
 @theme {
-  --color-background: #070b14; /* deep navy night */
-  --color-surface: #0e1524;
-  --color-border: #1e2a3f;
-  --color-foreground: #e6edf7;
-  --color-muted: #8b9ab3;
-  --color-accent: #2dd4d4; /* teal */
-  --color-highlight: #e0409a; /* magenta, use sparingly */
+  --color-background: #0a0714; /* violet night */
+  --color-surface: #140f24;
+  --color-border: #2a2142;
+  --color-foreground: #ede9fe;
+  --color-muted: #a59cc4;
+  --color-accent: #22d3ee; /* neon cyan */
+  --color-highlight: #ec4899; /* neon magenta */
+  --color-violet: #a855f7;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -26,8 +27,13 @@ body {
 /* Subtle map grid with a teal glow; pure CSS, no image asset. */
 @utility grid-lines {
   background-image:
-    radial-gradient(circle at 55% 45%, color-mix(in oklab, var(--color-accent) 12%, transparent), transparent 60%),
+    radial-gradient(circle at 55% 45%, color-mix(in oklab, var(--color-violet) 14%, transparent), transparent 60%),
     linear-gradient(to right, color-mix(in oklab, var(--color-border) 60%, transparent) 1px, transparent 1px),
     linear-gradient(to bottom, color-mix(in oklab, var(--color-border) 60%, transparent) 1px, transparent 1px);
   background-size: 100% 100%, 48px 48px, 48px 48px;
+}
+
+/* Soft neon glow for text on the map. */
+@utility text-glow {
+  text-shadow: 0 0 12px color-mix(in oklab, var(--color-highlight) 70%, transparent);
 }

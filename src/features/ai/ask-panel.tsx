@@ -137,24 +137,26 @@ export function AskPanel({ live, onResult }: AskPanelProps) {
         )}
       </div>
 
-      {run?.status === "done" && <ExecutionTrace steps={steps.slice(0, shown)} />}
+      {run?.status === "done" && <ExecutionTrace steps={steps.slice(0, shown)} complete={finished} />}
     </section>
   );
 }
 
 // The Execution Inspector: what the model asked for, what the server checked and ran, and how long each step took.
-function ExecutionTrace({ steps }: { steps: TraceStep[] }) {
+function ExecutionTrace({ steps, complete }: { steps: TraceStep[]; complete: boolean }) {
+  const totalMs = steps.reduce((sum, step) => sum + step.ms, 0);
+  const toolCalls = steps.filter((step) => step.kind === "tool").length;
   return (
-    <div className="mt-4">
+    <div className="mt-4 rounded-xl border border-border bg-background/40 p-3">
       <h3 className="font-mono text-[10px] uppercase tracking-widest text-muted">Execution trace</h3>
       <ol className="mt-2 space-y-2 border-l border-border pl-3">
         {steps.map((step, i) => (
-          <li key={i} className="relative text-xs before:absolute before:top-1.5 before:-left-[15.5px] before:size-1.5 before:rounded-full before:bg-accent">
+          <li key={i} className="relative text-xs before:absolute before:top-1.5 before:-left-[15.5px] before:size-1.5 before:rounded-full before:bg-accent before:shadow-[0_0_6px] before:shadow-accent">
             <div className="flex justify-between gap-2 font-mono">
               <span className={step.kind === "tool" ? "text-accent" : "text-foreground"}>
                 {step.kind === "model" ? "Model" : `Tool · ${step.name}`}
               </span>
-              <span className="text-muted">{step.ms < 1000 ? `${step.ms} ms` : `${(step.ms / 1000).toFixed(1)} s`}</span>
+              <span className="text-muted">{formatMs(step.ms)}</span>
             </div>
             <p className="mt-0.5 break-words font-mono text-[11px] text-muted">
               {step.kind === "model"
@@ -168,6 +170,13 @@ function ExecutionTrace({ steps }: { steps: TraceStep[] }) {
           </li>
         ))}
       </ol>
+      {complete && (
+        <p className="mt-3 border-t border-border pt-2 font-mono text-[10px] text-muted">
+          {formatMs(totalMs)} total · {toolCalls} tool {toolCalls === 1 ? "call" : "calls"} · {steps.length} steps
+        </p>
+      )}
     </div>
   );
 }
+
+const formatMs = (ms: number) => (ms < 1000 ? `${ms} ms` : `${(ms / 1000).toFixed(1)} s`);

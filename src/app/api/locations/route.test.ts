@@ -14,22 +14,27 @@ describe("GET /api/locations", () => {
   it("returns every seeded location by default", async () => {
     const { status, body } = await get("");
     expect(status).toBe(200);
-    expect(body.locations).toHaveLength(6);
+    expect(body.locations).toHaveLength(28);
   });
 
   it("filters by category", async () => {
-    const { body } = await get("?category=City");
-    expect(slugs(body)).toEqual(["port-gellhorn", "vice-city"]);
+    const { body } = await get("?category=Hotel");
+    expect(slugs(body)).toEqual(["dominion-hotel", "hotel-dixon", "ocean-view-hotel", "starlet-motel"]);
   });
 
-  it("searches name, summary and category, ignoring case", async () => {
-    expect(slugs((await get("?q=GELLHORN")).body)).toEqual(["port-gellhorn"]);
+  it("searches name, summary, category and region, ignoring case", async () => {
+    expect(slugs((await get("?q=GELLHORN")).body)).toEqual(["pawn-and-gun", "port-gellhorn", "starlet-motel"]);
     expect(slugs((await get("?q=wetland")).body)).toEqual(["grassrivers"]);
-    expect(slugs((await get("?q=cit")).body)).toEqual(["port-gellhorn", "vice-city"]);
+    expect(slugs((await get("?q=nightlife")).body)).toEqual(["effluvia", "nine1nine"]);
   });
 
   it("requires every word to match, in any field", async () => {
     expect(slugs((await get("?q=west%20coast")).body)).toEqual(["port-gellhorn"]);
+    expect(slugs((await get("?q=keys%20marina")).body)).toEqual(["brians-marina"]);
+  });
+
+  it("matches singular names when searching a plural", async () => {
+    expect(slugs((await get("?q=vice%20hotels")).body)).toEqual(["dominion-hotel", "hotel-dixon", "ocean-beach", "ocean-view-hotel", "vice-beach"]);
     expect(slugs((await get("?q=theme%20park")).body)).toEqual([]);
   });
 

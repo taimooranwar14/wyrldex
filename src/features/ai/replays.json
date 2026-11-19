@@ -1,63 +1,179 @@
 [
   {
-    "question": "Which cities are in Leonida?",
-    "recordedAt": "2026-11-19T18:53:18.463Z",
+    "question": "Which hotels are in Vice City?",
+    "recordedAt": "2026-11-19T19:17:57.498Z",
     "result": {
       "mode": "live-local",
       "model": "qwen3:8b",
-      "answer": "Port Gellhorn and Vice City are the cities in Leonida.",
+      "answer": "In Vice City, you can find the Dominion Hotel, Hotel Dixon, Ocean View Hotel, and Vice Beach, which features high-rise hotels and a boardwalk.",
       "locations": [
         {
-          "slug": "port-gellhorn",
-          "name": "Port Gellhorn",
-          "category": "City",
-          "x": 0.1,
-          "y": 0.3,
-          "summary": "A faded port town on the western coast.",
-          "verification": "official",
-          "sourceUrl": "https://www.rockstargames.com/VI"
+          "slug": "dominion-hotel",
+          "name": "Dominion Hotel",
+          "category": "Hotel",
+          "region": "Vice City",
+          "x": 0.668,
+          "y": 0.64,
+          "summary": "Beachfront hotel seen in the second trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
         },
         {
-          "slug": "vice-city",
-          "name": "Vice City",
-          "category": "City",
-          "x": 0.58,
-          "y": 0.7,
-          "summary": "Leonida's signature city, on the east coast.",
-          "verification": "official",
-          "sourceUrl": "https://www.rockstargames.com/VI"
+          "slug": "hotel-dixon",
+          "name": "Hotel Dixon",
+          "category": "Hotel",
+          "region": "Vice City",
+          "x": 0.655,
+          "y": 0.69,
+          "summary": "Hotel with neon lettering on the beach skyline in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/"
+        },
+        {
+          "slug": "ocean-beach",
+          "name": "Ocean Beach",
+          "category": "District",
+          "region": "Vice City",
+          "x": 0.628,
+          "y": 0.71,
+          "summary": "Reported as Vice City's signature beach district of pastel hotels.",
+          "verification": "community",
+          "sourceUrl": "https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/"
+        },
+        {
+          "slug": "ocean-view-hotel",
+          "name": "Ocean View Hotel",
+          "category": "Hotel",
+          "region": "Vice City",
+          "x": 0.655,
+          "y": 0.595,
+          "summary": "Beachfront hotel seen in the second trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "starlet-motel",
+          "name": "Starlet Motel",
+          "category": "Hotel",
+          "region": "Port Gellhorn",
+          "x": 0.125,
+          "y": 0.265,
+          "summary": "Motel shown in an official Rockstar screenshot.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        },
+        {
+          "slug": "vice-beach",
+          "name": "Vice Beach",
+          "category": "Beach",
+          "region": "Vice City",
+          "x": 0.645,
+          "y": 0.665,
+          "summary": "Busy beachfront with high-rise hotels and a boardwalk, a focus of the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://screenrant.com/gta-6-leonida-vice-city-every-location-revealed/"
         }
       ],
       "trace": [
         {
           "kind": "model",
-          "ms": 1923,
+          "ms": 1028,
           "content": "",
           "toolCalls": [
             {
               "name": "searchLocations",
               "arguments": {
-                "q": "city"
+                "q": "hotel"
               }
             }
           ]
         },
         {
           "kind": "tool",
-          "ms": 23,
+          "ms": 14,
           "name": "searchLocations",
           "arguments": {
-            "q": "city"
+            "q": "hotel"
           },
           "slugs": [
-            "port-gellhorn",
-            "vice-city"
+            "dominion-hotel",
+            "hotel-dixon",
+            "ocean-beach",
+            "ocean-view-hotel",
+            "starlet-motel",
+            "vice-beach"
           ]
         },
         {
           "kind": "model",
-          "ms": 1136,
-          "content": "Port Gellhorn and Vice City are the cities in Leonida.",
+          "ms": 2716,
+          "content": "In Vice City, you can find the Dominion Hotel, Hotel Dixon, Ocean View Hotel, and Vice Beach, which features high-rise hotels and a boardwalk.",
+          "toolCalls": []
+        }
+      ]
+    }
+  },
+  {
+    "question": "Where can I go out at night?",
+    "recordedAt": "2026-11-19T19:18:00.914Z",
+    "result": {
+      "mode": "live-local",
+      "model": "qwen3:8b",
+      "answer": "You can go out at night to Effluvia, a rooftop bar in Vice City, or to NINE1NINE, a downtown nightclub also in Vice City.",
+      "locations": [
+        {
+          "slug": "effluvia",
+          "name": "Effluvia",
+          "category": "Nightlife",
+          "region": "Vice City",
+          "x": 0.6,
+          "y": 0.7,
+          "summary": "Rooftop bar shown in Rockstar's extended look at the game.",
+          "verification": "community",
+          "sourceUrl": "https://www.technerdiness.com/gta/gta-6-vice-city-location-guide/"
+        },
+        {
+          "slug": "nine1nine",
+          "name": "NINE1NINE",
+          "category": "Nightlife",
+          "region": "Vice City",
+          "x": 0.555,
+          "y": 0.635,
+          "summary": "Downtown nightclub seen in the first trailer.",
+          "verification": "community",
+          "sourceUrl": "https://gta-6-map.com/guides/trailer-locations"
+        }
+      ],
+      "trace": [
+        {
+          "kind": "model",
+          "ms": 1134,
+          "content": "",
+          "toolCalls": [
+            {
+              "name": "searchLocations",
+              "arguments": {
+                "q": "nightlife"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "tool",
+          "ms": 9,
+          "name": "searchLocations",
+          "arguments": {
+            "q": "nightlife"
+          },
+          "slugs": [
+            "effluvia",
+            "nine1nine"
+          ]
+        },
+        {
+          "kind": "model",
+          "ms": 2262,
+          "content": "You can go out at night to Effluvia, a rooftop bar in Vice City, or to NINE1NINE, a downtown nightclub also in Vice City.",
           "toolCalls": []
         }
       ]
@@ -65,7 +181,7 @@
   },
   {
     "question": "What is on the west coast?",
-    "recordedAt": "2026-11-19T18:53:20.887Z",
+    "recordedAt": "2026-11-19T19:18:03.373Z",
     "result": {
       "mode": "live-local",
       "model": "qwen3:8b",
@@ -74,7 +190,8 @@
         {
           "slug": "port-gellhorn",
           "name": "Port Gellhorn",
-          "category": "City",
+          "category": "Region",
+          "region": null,
           "x": 0.1,
           "y": 0.3,
           "summary": "A faded port town on the western coast.",
@@ -85,7 +202,7 @@
       "trace": [
         {
           "kind": "model",
-          "ms": 1111,
+          "ms": 1116,
           "content": "",
           "toolCalls": [
             {
@@ -98,7 +215,7 @@
         },
         {
           "kind": "tool",
-          "ms": 3,
+          "ms": 9,
           "name": "searchLocations",
           "arguments": {
             "q": "west coast"
@@ -109,7 +226,7 @@
         },
         {
           "kind": "model",
-          "ms": 1296,
+          "ms": 1298,
           "content": "Port Gellhorn is a faded port town located on the western coast of Leonida.",
           "toolCalls": []
         }
@@ -118,16 +235,16 @@
   },
   {
     "question": "Is there a theme park?",
-    "recordedAt": "2026-11-19T18:53:22.746Z",
+    "recordedAt": "2026-11-19T19:18:05.361Z",
     "result": {
       "mode": "live-local",
       "model": "qwen3:8b",
-      "answer": "No theme park was found in Leonida.",
+      "answer": "There is no theme park listed in the available locations.",
       "locations": [],
       "trace": [
         {
           "kind": "model",
-          "ms": 1111,
+          "ms": 1137,
           "content": "",
           "toolCalls": [
             {
@@ -149,8 +266,8 @@
         },
         {
           "kind": "model",
-          "ms": 737,
-          "content": "No theme park was found in Leonida.",
+          "ms": 833,
+          "content": "There is no theme park listed in the available locations.",
           "toolCalls": []
         }
       ]

@@ -67,7 +67,9 @@ export async function askLocations(question: string) {
         } else {
           const rows = await listLocations({ world: DEFAULT_WORLD_SLUG, limit: 10, q: args.data.q });
           rows.forEach((row) => found.set(row.slug, row));
-          content = JSON.stringify(rows.map(({ name, category, summary, verification }) => ({ name, category, summary, verification })));
+          content = JSON.stringify(
+            rows.map(({ name, category, region, summary, verification }) => ({ name, category, region, summary, verification })),
+          );
           trace.push({ kind: "tool", ms: elapsed(start), ...call, slugs: rows.map((row) => row.slug) });
         }
       }
