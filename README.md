@@ -6,7 +6,7 @@
 
 > Independent, unofficial fan project. Not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive.
 
-![Explorer after asking for Lucia's locations: map, World Graph, Collections, execution trace and character details](docs/screenshots/explorer-ask-ai.png)
+![Explorer zoomed into Vice City after asking which hotels are there: map, World Graph, Collections and the AI's answer with its steps](docs/screenshots/explorer-ask-ai.png)
 
 ## Status
 | Feature | Status |
