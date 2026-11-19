@@ -156,6 +156,8 @@ window.__demo = (() => {
 `;
 
 const disclaimer = "<small>unofficial fan project · not affiliated with Rockstar Games or Take-Two</small>";
+// Same card at the start and the end: just the name, the tagline and the unofficial note.
+const titleCard = `<h1>Wyrldex</h1><p>Intelligence for Virtual Worlds</p>${disclaimer}`;
 
 await send("Page.enable");
 await send("Runtime.enable");
@@ -164,7 +166,7 @@ await send("Emulation.setDeviceMetricsOverride", { width: 1280, height: 720, dev
 await send("Page.navigate", { url: base });
 await waitFor(`Object.keys(document.querySelector("input[type=search]") ?? {}).some((k) => k.startsWith("__reactFiber"))`);
 await js(overlay);
-await demo(`card(${JSON.stringify(`<h1>Wyrldex</h1><p>GTA VI is out today, so naturally I built a map for it</p>${disclaimer}`)})`);
+await demo(`card(${JSON.stringify(titleCard)})`);
 await sleep(600);
 await send("Page.startScreencast", { format: "jpeg", quality: 92, maxWidth: 1920, maxHeight: 1080, everyNthFrame: 1 });
 
@@ -234,7 +236,7 @@ await demo(`caption(null)`);
 
 await demo(
   `card(${JSON.stringify(
-    `<h1>Wyrldex</h1><p>still early. lots more coming.</p><p style="font-size:22px;color:#a5f3fc">github.com/taimooranwar14/wyrldex</p>${disclaimer}`,
+    titleCard,
   )})`,
 );
 await sleep(4500);
