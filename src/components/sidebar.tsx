@@ -1,10 +1,8 @@
 import Link from "next/link";
 
 const navItems = [
-  { label: "Explore", href: "/", available: true },
-  { label: "Locations", href: "/locations", available: false },
-  { label: "Discoveries", href: "/discoveries", available: false },
-  { label: "AI Lab", href: "/ai-lab", available: false },
+  { label: "Explore", href: "/" },
+  { label: "About", href: "/about" },
 ] as const;
 
 // Server component: the page tells us which item is active, so no client JS is shipped.
@@ -18,26 +16,15 @@ export function Sidebar({ activeHref }: { activeHref: string }) {
 
           return (
             <li key={item.href} className="shrink-0">
-              {item.available ? (
-                <Link
-                  href={item.href}
-                  aria-current={isActive ? "page" : undefined}
-                  className={`flex min-h-10 items-center rounded-md px-3 text-sm transition-colors ${
-                    isActive
-                      ? "bg-accent/10 font-medium text-accent"
-                      : "text-foreground hover:bg-surface"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ) : (
-                <span className="flex min-h-10 items-center gap-2 px-3 text-sm text-muted">
-                  {item.label}
-                  <span className="rounded border border-border px-1.5 text-[10px] uppercase tracking-wider">
-                    Soon
-                  </span>
-                </span>
-              )}
+              <Link
+                href={item.href}
+                aria-current={isActive ? "page" : undefined}
+                className={`flex min-h-10 items-center rounded-md px-3 text-sm transition-colors ${
+                  isActive ? "bg-accent/10 font-medium text-accent" : "text-foreground hover:bg-surface"
+                }`}
+              >
+                {item.label}
+              </Link>
             </li>
           );
         })}

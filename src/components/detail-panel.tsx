@@ -12,7 +12,7 @@ export function DetailPanel({ location, children }: { location: LocationSummary 
   return (
     <aside
       aria-label="Ask AI and location details"
-      className="flex flex-col gap-5 border-t border-border bg-surface/60 p-5 lg:overflow-y-auto lg:border-t-0 lg:border-l"
+      className="flex flex-col gap-5 border-t border-border bg-surface/60 p-5 backdrop-blur-md lg:overflow-y-auto lg:border-t-0 lg:border-l"
     >
       {children}
       <div aria-live="polite">

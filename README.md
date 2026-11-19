@@ -6,6 +6,8 @@
 
 > Independent, unofficial fan project. Not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive. "Wyrldex" is a provisional name.
 
+![Explorer with an AI answer, its execution trace and highlighted pins](docs/screenshots/explorer-ask-ai.png)
+
 ## Status
 | Feature | Status |
 |---|---|
@@ -18,6 +20,8 @@
 | Official Leonida regions with sources | ✅ Done |
 | Local AI tool call (`POST /api/ai/ask`, developer-only) | ✅ Done |
 | Ask AI panel + Execution Inspector + recorded replay | ✅ Done |
+| UI polish: map art, About page, favicon | ✅ Done |
+| Public hosting | 📋 Not yet (runs locally) |
 
 ## Quickstart
 Requires Node.js 24+ and Docker.
@@ -28,7 +32,7 @@ cp .env.example .env    # then set a password in both lines
 npm run db:up           # start Postgres (localhost only)
 npx prisma migrate dev  # create tables
 npx prisma db seed      # load Leonida's official regions
-npm run dev             # http://localhost:3000
+npm run dev             # http://localhost:3000 (add `-- -p 3123` if 3000 is taken)
 
 npm run lint && npm run typecheck && npm test
 ```
@@ -54,6 +58,9 @@ Next.js decides per file, not per folder. A file with `"use client"` (and everyt
 | Shared | `features/locations/schema.ts` (Zod rules), `lib/brand.ts` |
 
 🔒 = guarded by `server-only`.
+
+## Mobile
+<img src="docs/screenshots/mobile.png" alt="Phone layout: search, map, then the Ask AI panel" width="300">
 
 ## Docs
 - Architecture decisions: [`docs/adr/`](docs/adr/)

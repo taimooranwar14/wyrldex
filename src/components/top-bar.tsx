@@ -2,7 +2,7 @@ import { brand } from "@/lib/brand";
 
 export function TopBar() {
   return (
-    <header className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b border-border bg-surface/80 px-4 py-3 lg:col-span-3">
+    <header className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b border-border bg-surface/80 px-4 py-3 backdrop-blur-md lg:col-span-3">
       <div className="flex items-baseline gap-3">
         <span className="text-lg font-semibold tracking-tight">{brand.name}</span>
         <span className="hidden font-mono text-xs uppercase tracking-widest text-accent sm:inline">

@@ -90,6 +90,7 @@ export function Explorer({ locations, liveAI }: { locations: LocationSummary[]; 
             locations={visible}
             selectedSlug={selected?.slug ?? null}
             onSelect={setSelectedSlug}
+            pulse={aiLocations !== null}
             className="w-full lg:w-[min(100cqw,142.857cqh)]"
           />
         </div>

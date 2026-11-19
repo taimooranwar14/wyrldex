@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: `${brand.name} — ${brand.tagline}`,
+  title: { default: `${brand.name} — ${brand.tagline}`, template: `%s · ${brand.name}` },
   description: `${brand.experience}. ${brand.disclaimer}`,
 };
 
@@ -30,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded focus:bg-surface focus:px-3 focus:py-2"
         >
-          Skip to map
+          Skip to content
         </a>
         {children}
       </body>

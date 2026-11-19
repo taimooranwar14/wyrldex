@@ -87,3 +87,13 @@
 - A small model embellishes even with "answer only from results"; naming what not to add ("history, atmosphere") fixed it.
 - Next 16 allows one `next dev` per project folder; test the public mode with `next build && next start` on another port.
 - Port 3000 is used by another local project; this app runs on 3123 (dev) / 3124 (prod check).
+
+## 2026-11-19 — M8: UI polish (local MVP)
+
+**Built:** map art (land gradient, glowing coastline, LEONIDA label, compass), pin names on hover/keyboard focus, pulsing pins for AI results (off under reduced motion), glass panels, About page, original SVG favicon (replaces the scaffold's), title template, nav without "Soon" items, README screenshots.
+
+**Decisions:** no hosting provider yet, so the MVP ships as a local app; public deploy and OG image wait until there is a URL. Mobile keeps the stacked layout instead of a bottom sheet.
+
+**Learned / gotchas:**
+- Code passed to the DevTools Protocol's `Runtime.evaluate` runs in the page, not Node: build the string in Node first.
+- `app/icon.svg` is a file convention: Next adds the `<link rel="icon">` itself.
