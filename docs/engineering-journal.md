@@ -102,7 +102,7 @@
 
 **Built:** 22 community places (trailers and official screenshots, via third-party guides) with a `region` column; search covers region and simple plurals. Neon night map: glowing highways, city lights clipped to land, barrier-island beach strip, region labels, teardrop pins with category icons, callout cards, zoom/pan with level of detail (dots below 2×, icon pins above). Violet palette, facts grid in the detail panel, totals in the Execution Inspector. Replays re-recorded.
 
-**Decisions:** the user's concept mockup was the reference for layout and mood only; Rockstar's logo, screenshots and character art stay out. Community items need a source page and a known region; fan-invented district names and leaks are excluded. Website text claiming "Rockstar confirmed" still counts as `community` until we can check it on Rockstar's own site.
+**Decisions:** a concept mockup was the reference for layout and mood only; Rockstar's logo, screenshots and character art stay out. Community items need a source page and a known region; fan-invented district names and leaks are excluded. Website text claiming "Rockstar confirmed" still counts as `community` until we can check it on Rockstar's own site.
 
 **Learned / gotchas:**
 - `Math.sin/cos` can differ slightly across JS engines; generated art rendered on server and client should use plain arithmetic to avoid hydration mismatches.
@@ -117,7 +117,7 @@
 **Verified:** 47 tests; headless Chrome flows for the Lucia demo, saving a collection, focusing a character, zooming a region, at desktop and phone width (page width 390 = viewport, no horizontal scroll).
 
 **Learned / gotchas:**
-- The brief's headline demo, "Find locations connected to Lucia", now runs for real: model → `findConnections({name: "Lucia"})` → 2 sourced places.
+- The headline demo, "Find locations connected to Lucia", now runs for real: model → `findConnections({name: "Lucia"})` → 2 sourced places.
 - Recording again caught a wrong answer: told to use "one keyword", the model searched `hotel` and called a Port Gellhorn motel a Vice City hotel. Letting it pass `hotel vice city` (search already ANDs words) fixed it.
 - Repeated React keys leave stale elements in the DOM; derived lists used as keys must be de-duplicated at the source.
 - "Adjust state during render" (compare with a stored previous prop) moves the map camera when results change, without an effect and without the set-state-in-effect lint error.

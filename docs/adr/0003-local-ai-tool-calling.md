@@ -4,7 +4,7 @@
 - Date: 2026-11-19
 
 ## Context
-The brief requires one real LLM integration at €0, developer-run only, with schema-validated tool calls and no path for the model to run arbitrary queries.
+v0.1 needs one real LLM integration at €0, developer-run only, with schema-validated tool calls and no path for the model to run arbitrary queries.
 
 ## Decision
 - **Direct `fetch` to Ollama `/api/chat`** (`stream: false`, `think: false`), no AI SDK. One provider does not justify an abstraction; the `AIProvider` interface waits until a second provider exists.

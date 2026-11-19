@@ -10,7 +10,7 @@ The World Graph and Collections are the next demo features. The graph needs rela
 - **Graph data:** two tables, `Character` and `Connection` (character ↔ location). Every connection has its own `note`, `verification` and `sourceUrl`, because a link can be less certain than either end (official names, community-reported link). No generic node/edge store until a second relationship type exists.
 - **Graph building is a pure function** (`features/graph/build.ts`): character → its places; place → its characters and parent region; region → its places; default → characters and regions. The component only draws.
 - **AI:** a second whitelisted, read-only tool, `findConnections({ name })`. Tools now live in one table; `Object.hasOwn` guards the lookup so names like `constructor` are refused.
-- **Collections in localStorage**, via `useSyncExternalStore` (server snapshot empty, so hydration matches). Stored data is parsed defensively. The user creates and fills every list by clicking, including "Save as collection" after an AI answer, so the human approves each write, as the brief requires.
+- **Collections in localStorage**, via `useSyncExternalStore` (server snapshot empty, so hydration matches). Stored data is parsed defensively. The user creates and fills every list by clicking, including "Save as collection" after an AI answer, so a human approves every write.
 - **Suggested questions follow the selection** and come from one pure module shared with the recorder, so every suggestion in public mode has a real recording.
 
 ## Consequences

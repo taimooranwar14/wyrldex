@@ -43,3 +43,7 @@ next-env.d.ts
 
 # prisma generated client (rebuilt by postinstall)
 /src/generated/
+
+# Private planning and AI working agreement: kept locally, never committed
+wyrldex_project_brief.md
+CLAUDE.md
