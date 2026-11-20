@@ -5,6 +5,7 @@
 **Intelligence for Virtual Worlds.** An AI-native virtual-world exploration platform. First experience: a GTA VI-inspired World Explorer.
 
 > Independent, unofficial fan project. Not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive.
+> Built before the game's release from pre-release trailers and official material, so some details may differ from the released game.
 
 ![Explorer zoomed into Vice City after asking which hotels are there: map, World Graph, Collections and the AI's answer with its steps](docs/screenshots/explorer-ask-ai.png)
 
